@@ -241,6 +241,7 @@ int main() {
         return true;
     });
 
+    /*
     volatile bool done = false;
     int test_timeout = 60; //seconds
     std::thread timer([&]() {
@@ -254,6 +255,7 @@ int main() {
         std::cerr << "maybe you should try to use faster algorithms" << std::endl << std::flush;
         exit(1);
     });
+    */
 
     Rng rng(0xDEADBEEF);
 
@@ -293,8 +295,8 @@ int main() {
     }
     std::cout << ". " << total - failed << " passed, " << failed << " failed." << std::endl;
     
-    done = true;
-    timer.join();
+    //done = true;
+    //timer.join();
 
     return ret;
 }

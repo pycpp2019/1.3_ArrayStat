@@ -52,9 +52,9 @@ double ArrayStat::mean()
     if (arr.size()==0) return 0;
     else
     {
-    int n=arr.size()-1;
-    double sum;
-    for (long int i=0; i<=n; i++)
+    int n=arr.size();
+    double sum=0;
+    for (long int i=0; i<n; i++)
     {
         sum=sum+arr[i];
     }
@@ -63,13 +63,13 @@ double ArrayStat::mean()
 }
 double ArrayStat::rms()
 {
-    if (arr.size()!=0) return 0;
+    if (arr.size()==0) return 0;
     else
     {
     double m=mean();
-    double S;
-    int n=arr.size()-1;
-    for (long int i=0; i<=n; i++)
+    double S=0;
+    int n=arr.size();
+    for (long int i=0; i<n; i++)
     {
         S=S+(arr[i]-m)*(arr[i]-m);
     }
@@ -81,32 +81,43 @@ size_t ArrayStat::countLarger(int a)
 {
    if (arr.size() <= 2)
     {
-        if (arr.size() == 2)
+        if (arr.size()==2)
         {
-            if (arr[1]>=a) return 2;
-            else 
-            {
-                if (arr[0]>=a) return 1;
-                else return 0;
-            }
+        if (arr[0]>=a) return 2;
+        else if (arr[1]>=a) return 1;
+        else return 0;
         }
-        if(arr.size() == 1)
+        else
         {
-            if (arr[0]>=a) return 1;
+            if (arr.size()==1)
+            {
+            if (arr[0]>=a)return 1;
+            else return 0;
+            }
             else return 0;
         }
-        if (arr.size() == 0) return 0;
+        
     }
     else
     {
-        return distance(arr.begin(), upper_bound(arr.begin(), arr.end(), a));
+        return distance(upper_bound(arr.begin(), arr.end(), a), arr.end());
     } 
 }
 void ArrayStat::print()
 {
     if (arr.size()!=0)
-    for (long int i=0; i<=arr.size(); i++)
+    for (long int i=0; i<arr.size(); i++)
     {
         cout<< arr[i]<<" ";
     }
 }
+/*
+int main() {
+    ArrayStat stat("test.txt");
+    stat.print();
+    cout <<"  mean="<< stat.mean() << "  rms=" << stat.rms()<<"  a"<<stat.countLarger();
+
+    
+    return 0;
+}
+*/
