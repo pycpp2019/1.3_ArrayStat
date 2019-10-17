@@ -16,10 +16,4 @@ class ArrayStat
     private:
     vector<int> arr;
 };
-/*
-class Exception:exception{
-    public:
-    string msg;
-    Exception (const char *msg);
-};
-*/
+

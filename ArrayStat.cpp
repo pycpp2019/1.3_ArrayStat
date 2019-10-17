@@ -28,12 +28,6 @@ ArrayStat::ArrayStat(const char * name)
     sort(arr.begin(), arr.end());
     
 }
-/*
-Exception::Exception (const char *msg)
-    {
-        this->msg=msg;
-    }
-*/
 
 int ArrayStat::max()
 {
@@ -115,7 +109,7 @@ void ArrayStat::print()
 int main() {
     ArrayStat stat("test.txt");
     stat.print();
-    cout <<"  mean="<< stat.mean() << "  rms=" << stat.rms()<<"  a"<<stat.countLarger();
+    cout <<"  mean="<< stat.mean() << "  rms=" << stat.rms();
 
     
     return 0;
