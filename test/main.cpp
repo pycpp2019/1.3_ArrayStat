@@ -7,6 +7,8 @@
 #include <functional>
 #include <algorithm>
 #include <utility>
+#include <thread>
+#include <chrono>
 
 #include <cstdlib>
 #include <cmath>
@@ -18,7 +20,11 @@
 #include <ArrayStat.h>
 
 
-static const int N_TRIES = 16; 
+#define EPS 1e-8
+
+bool f_eq(double a, double b, double eps=EPS) {
+    return fabs(a - b) < eps;
+}
 
 class TempFile {
 private:
@@ -79,25 +85,39 @@ std::vector<int> make_array(Rng *rng,int size, int begin, int end) {
     return v;
 }
 
+template <typename F>
+void add_files_test(
+    std::vector<std::pair<std::string, std::function<bool(Rng*)>>> *tests,
+    std::string prefix, F test_func
+) {
+    tests->push_back(
+        make_pair(prefix + std::string("_empty"), [&](Rng *rng) -> bool {
+            std::vector<int> data = std::vector<int>();
+            TempFile tfile(write_file(data));
+            return test_func(&data, tfile.name(), rng);
+        })
+    );
+
+    tests->push_back(
+        make_pair(prefix + std::string("_100"), [&](Rng *rng) -> bool {
+            std::vector<int> data = make_array(rng, 100, -1000, 1001);
+            TempFile tfile(write_file(data));
+            return test_func(&data, tfile.name(), rng);
+        })
+    );
+
+    tests->push_back(
+        make_pair(prefix + std::string("_million"), [&](Rng *rng) -> bool {
+            std::vector<int> data = make_array(rng, 1000000, -100000000, 100000001);
+            TempFile tfile(write_file(data));
+            return test_func(&data, tfile.name(), rng);
+        })
+    );
+}
+
+
 int main() {
     std::vector<std::pair<std::string, std::function<bool(Rng*)>>> tests = {
-        make_pair(std::string("constructor"), [](Rng *rng) -> bool {
-            std::vector<int> data = make_array(rng, 10, 0, 100);
-            TempFile tfile(write_file(data));
-            {
-                ArrayStat stat(tfile.name());
-            }
-            return true;
-        }),
-
-        make_pair(std::string("constructor_empty"), [](Rng *rng) -> bool {
-            TempFile tfile(write_file(std::vector<int>()));
-            {
-                ArrayStat stat(tfile.name());
-            }
-            return true;
-        }),
-
         make_pair(std::string("exception"), [](Rng *rng) -> bool {
             try {
                 ArrayStat stat("out/nonexistent.txt");
@@ -106,87 +126,134 @@ int main() {
             }
             return false;
         }),
-
-        make_pair(std::string("print"), [](Rng *rng) -> bool {
-            std::vector<int> data = make_array(rng, 100, -1000, 1001);
-            TempFile tfile(write_file(data));
-            std::string output;
-            
-            {
-                Redir redir;
-
-                ArrayStat stat(tfile.name());
-                stat.print();
-
-                output = redir.content();
-            }
-
-            std::sort(data.begin(), data.end());
-            std::vector<int> parsed = parse_int(output);
-
-            if (data.size() != parsed.size()) {
-                return false;
-            }
-            for (int i = 0; i < data.size(); ++i) {
-                if (data[i] != parsed[i]) {
-                    return false;
-                }
-            }
-
-            return true;
-        }),
-
-        make_pair(std::string("print_empty"), [](Rng *rng) -> bool {
-            TempFile tfile(write_file(std::vector<int>()));
-            std::string output;
-            
-            {
-                Redir redir;
-
-                ArrayStat stat(tfile.name());
-                stat.print();
-
-                output = redir.content();
-            }
-
-            std::vector<int> parsed = parse_int(output);
-
-            if (parsed.size() != 0) {
-                return false;
-            }
-
-            return true;
-        }),
-
-        make_pair(std::string("print_many"), [](Rng *rng) -> bool {
-            std::vector<int> data = make_array(rng, 1000000, -100000000, 100000001);
-            TempFile tfile(write_file(data));
-            std::string output;
-            
-            {
-                Redir redir;
-
-                ArrayStat stat(tfile.name());
-                stat.print();
-
-                output = redir.content();
-            }
-
-            std::sort(data.begin(), data.end());
-            std::vector<int> parsed = parse_int(output);
-
-            if (data.size() != parsed.size()) {
-                return false;
-            }
-            for (int i = 0; i < data.size(); ++i) {
-                if (data[i] != parsed[i]) {
-                    return false;
-                }
-            }
-
-            return true;
-        }),
     };
+    add_files_test(&tests, "constructor", [](
+        std::vector<int> *data, const char *fname, Rng *rng
+    ) -> bool {
+        ArrayStat stat(fname);
+        return true;
+    });
+    add_files_test(&tests, "print", [](
+        std::vector<int> *data, const char *fname, Rng *rng
+    ) -> bool {
+        std::string output;
+        
+        {
+            Redir redir;
+
+            ArrayStat stat(fname);
+            stat.print();
+
+            output = redir.content();
+        }
+
+        std::sort(data->begin(), data->end());
+        std::vector<int> parsed = parse_int(output);
+
+        if (data->size() != parsed.size()) {
+            return false;
+        }
+        for (int i = 0; i < data->size(); ++i) {
+            if ((*data)[i] != parsed[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+    add_files_test(&tests, "min_max", [](
+        std::vector<int> *data, const char *fname, Rng *rng
+    ) -> bool {
+        if (data->size() <= 0) {
+            return true;
+        }
+
+        int min = *std::min_element(data->begin(), data->end());
+        int max = *std::max_element(data->begin(), data->end());
+
+        ArrayStat stat(fname);
+
+        for (int i = 0; i < 1000000; ++i) {
+            if (stat.min() != min || stat.max() != max) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+    add_files_test(&tests, "mean_rms", [](
+        std::vector<int> *data, const char *fname, Rng *rng
+    ) -> bool {
+        if (data->size() <= 0) {
+            return true;
+        }
+
+        double mean = 0.0;
+        double rms = 0.0;
+        for (int x : *data) {
+            mean += x;
+            rms += x*x;
+        }
+        mean /= data->size();
+        rms = sqrt(rms/data->size());
+
+        ArrayStat stat(fname);
+
+        if (!f_eq(stat.mean(), mean)) {
+            return false;
+        }
+        if (!f_eq(stat.rms(), rms)) {
+            return false;
+        }
+
+        return true;
+    });
+    add_files_test(&tests, "count_larger", [](
+        std::vector<int> *data, const char *fname, Rng *rng
+    ) -> bool {
+        ArrayStat stat(fname);
+
+        std::sort(data->begin(), data->end());
+
+        int lval = 0;
+        int lcnt = 0;
+        for (int j = 0; j < data->size(); ++j) {
+            int i = data->size() - j - 1;
+            int val = (*data)[i];
+            if (j == 0 || lval != val) {
+                lval = val;
+                lcnt = j;
+            }
+            if (stat.countLarger(val) != lcnt) {
+                return false;
+            }
+            
+            if (j != 0) {
+                int diff = (*data)[i + 1] - val;
+                if (diff >= 2) {
+                    if (stat.countLarger(val + diff/2) != lcnt) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    });
+
+    volatile bool done = false;
+    int test_timeout = 60; //seconds
+    std::thread timer([&]() {
+        for (int i = 0; i < test_timeout; ++i) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            if (done) {
+                return;
+            }
+        }
+        std::cerr << std::endl << "[error] test execution time exceeded" << std::endl;
+        std::cerr << "maybe you should try to use faster algorithms" << std::endl << std::flush;
+        exit(1);
+    });
 
     Rng rng(0xDEADBEEF);
 
@@ -195,6 +262,9 @@ int main() {
     int counter = 0;
 
     for (std::pair<std::string, std::function<bool(Rng*)>> &pair : tests) {
+        std::cout << "(" << counter << "/" << total << ") ";
+        std::cout << pair.first << " ... " << std::flush;
+
         bool ok;
         try {
             ok = pair.second(&rng);
@@ -204,13 +274,12 @@ int main() {
         }
 
         if (ok) {
-            std::cout << "[ok]";
+            std::cout << "ok";
         } else {
             failed += 1;
-            std::cout << "[fail]";
+            std::cout << "fail";
         }
-        std::cout << " (" << counter << "/" << total << ") ";
-        std::cout << pair.first << std::endl;
+        std::cout << std::endl;
         counter += 1;
     }
 
@@ -224,5 +293,8 @@ int main() {
     }
     std::cout << ". " << total - failed << " passed, " << failed << " failed." << std::endl;
     
+    done = true;
+    timer.join();
+
     return ret;
 }
