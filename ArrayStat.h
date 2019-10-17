@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <exception>
+#include<string>
 using namespace std;
 class ArrayStat
 {
@@ -14,3 +16,10 @@ class ArrayStat
     private:
     vector<int> arr;
 };
+/*
+class Exception:exception{
+    public:
+    string msg;
+    Exception (const char *msg);
+};
+*/

@@ -10,6 +10,7 @@ ArrayStat::ArrayStat(const char * name)
     {
         {
             filein.open(name);
+            if (filein.is_open() == false) throw  "Input error: file not found or type is incorrect!";
             int c, n;
             filein >> n;
             for (int i=0; i<n; i++)
@@ -20,27 +21,36 @@ ArrayStat::ArrayStat(const char * name)
 
         }
     }
-    catch(const std::exception& e)
+    catch(const string error)
     {
-        std::cerr << e.what() << '\n';
+        cout << error;
     }
     sort(arr.begin(), arr.end());
     
 }
+/*
+Exception::Exception (const char *msg)
+    {
+        this->msg=msg;
+    }
+*/
 
 int ArrayStat::max()
 {
-    if (arr.size()!=0)
+    if (arr.size()==0) return 0;
+    else
     return arr[arr.size()-1];
 }
 int ArrayStat::min()
 {
-    if (arr.size()!=0)
+    if (arr.size()==0) return 0;
+    else
     return arr[0];
 }
 double ArrayStat::mean()
 {
-    if (arr.size()!=0)
+    if (arr.size()==0) return 0;
+    else
     {
     int n=arr.size()-1;
     double sum;
@@ -53,7 +63,8 @@ double ArrayStat::mean()
 }
 double ArrayStat::rms()
 {
-    if (arr.size()!=0)
+    if (arr.size()!=0) return 0;
+    else
     {
     double m=mean();
     double S;
