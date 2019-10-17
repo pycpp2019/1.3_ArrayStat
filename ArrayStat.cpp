@@ -54,7 +54,7 @@ double ArrayStat::mean()
     {
     int n=arr.size()-1;
     double sum;
-    for (int i=0; i<=n; i++)
+    for (long int i=0; i<=n; i++)
     {
         sum=sum+arr[i];
     }
@@ -69,7 +69,7 @@ double ArrayStat::rms()
     double m=mean();
     double S;
     int n=arr.size()-1;
-    for (int i=0; i<=n; i++)
+    for (long int i=0; i<=n; i++)
     {
         S=S+(arr[i]-m)*(arr[i]-m);
     }
@@ -105,7 +105,7 @@ size_t ArrayStat::countLarger(int a)
 void ArrayStat::print()
 {
     if (arr.size()!=0)
-    for (int i=0; i<=arr.size(); i++)
+    for (long int i=0; i<=arr.size(); i++)
     {
         cout<< arr[i]<<" ";
     }
