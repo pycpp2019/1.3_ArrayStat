@@ -1,4 +1,4 @@
-FLAGS=-std=c++11 -I. -lpthread
+FLAGS=-std=c++11 -I. -pthread -lpthread
 
 .PHONY: all test
 
