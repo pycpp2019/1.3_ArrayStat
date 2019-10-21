@@ -172,19 +172,26 @@ int main() {
     add_files_test(&tests, "min_max", [](
         std::vector<int> *data, const char *fname, Rng *rng
     ) -> bool {
-        if (data->size() <= 0) {
-            return true;
-        }
-
         ArrayStat stat(fname);
+
+        if (data->size() <= 0) {
+            try {
+                stat.min();
+            } catch (...) {
+                try {
+                    stat.max();
+                } catch (...) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         int min = *std::min_element(data->begin(), data->end());
         int max = *std::max_element(data->begin(), data->end());
 
-        for (int i = 0; i < 1000000; ++i) {
-            if (stat.min() != min || stat.max() != max) {
-                return false;
-            }
+        if (stat.min() != min || stat.max() != max) {
+            return false;
         }
 
         return true;
@@ -192,11 +199,16 @@ int main() {
     add_files_test(&tests, "mean", [](
         std::vector<int> *data, const char *fname, Rng *rng
     ) -> bool {
-        if (data->size() <= 0) {
-            return true;
-        }
-
         ArrayStat stat(fname);
+
+        if (data->size() <= 0) {
+            try {
+                stat.mean();
+            } catch (...) {
+                return true;
+            }
+            return false;
+        }
 
         double mean = 0.0;
         for (int x : *data) {
@@ -213,11 +225,16 @@ int main() {
     add_files_test(&tests, "rms", [](
         std::vector<int> *data, const char *fname, Rng *rng
     ) -> bool {
-        if (data->size() <= 1) {
-            return true;
-        }
-
         ArrayStat stat(fname);
+
+        if (data->size() <= 1) {
+            try {
+                stat.rms();
+            } catch (...) {
+                return true;
+            }
+            return false;
+        }
 
         double mean = 0.0;
         for (int x : *data) {
