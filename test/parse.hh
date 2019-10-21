@@ -44,3 +44,28 @@ std::vector<int> parse_int(std::string str) {
     
     return nums;
 }
+
+std::vector<double> parse_double(std::string str) {
+    std::vector<double> nums;
+
+    replace_other(&str, "0123456789+-.eE", ' ');
+
+    int b = -1;
+    for (int i = 0; i < str.size(); ++i) {
+        if (str[i] != ' ') {
+            if (b < 0) {
+                b = i;
+            }
+        } else {
+            if (b >= 0) {
+                nums.push_back(atof(str.substr(b, i - b).c_str()));
+                b = -1;
+            }
+        }
+    }
+    if (b >= 0) {
+        nums.push_back(atof(str.substr(b, str.size() - b).c_str()));
+    }
+    
+    return nums;
+}
