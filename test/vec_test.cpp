@@ -20,7 +20,7 @@
 #include <VecArrayStat.h>
 
 
-#define EPS 1e-6
+#define EPS 1e-4
 
 bool f_eq(double a, double b, double eps=EPS) {
     return fabs(a - b) < eps;
@@ -119,8 +119,17 @@ void add_files_test(
     );
 
     tests->push_back(
+        make_pair(prefix + std::string("_one"), [&](Rng *rng) -> bool {
+            std::vector<Vec3> data = make_array(rng, 1, 10.0/3, 10.0);
+            TempFile tfile(write_file(data));
+            std::vector<double> ndata = map_norm(data);
+            return test_func(&ndata, tfile.name(), rng);
+        })
+    );
+
+    tests->push_back(
         make_pair(prefix + std::string("_100"), [&](Rng *rng) -> bool {
-            std::vector<Vec3> data = make_array(rng, 100, 0.0, 1e4);
+            std::vector<Vec3> data = make_array(rng, 100, 1e4/3, 1e4);
             TempFile tfile(write_file(data));
             std::vector<double> ndata = map_norm(data);
             return test_func(&ndata, tfile.name(), rng);
@@ -129,7 +138,7 @@ void add_files_test(
 
     tests->push_back(
         make_pair(prefix + std::string("_million"), [&](Rng *rng) -> bool {
-            std::vector<Vec3> data = make_array(rng, 1000000, 0.0, 1e8);
+            std::vector<Vec3> data = make_array(rng, 1000000, 1e8/3, 1e8);
             TempFile tfile(write_file(data));
             std::vector<double> ndata = map_norm(data);
             return test_func(&ndata, tfile.name(), rng);
@@ -201,27 +210,52 @@ int main() {
 
         return true;
     });
-    add_files_test(&tests, "mean_rms", [](
+    add_files_test(&tests, "mean", [](
         std::vector<double> *data, const char *fname, Rng *rng
     ) -> bool {
         if (data->size() <= 0) {
             return true;
         }
 
+        ArrayStat stat(fname);
+
         double mean = 0.0;
-        double rms = 0.0;
         for (double x : *data) {
             mean += x;
-            rms += double(x)*double(x);
         }
         mean /= data->size();
-        rms = sqrt(rms/data->size());
-
-        ArrayStat stat(fname);
 
         if (!f_eq(stat.mean(), mean)) {
             return false;
         }
+
+        return true;
+    });
+    add_files_test(&tests, "rms", [](
+        std::vector<double> *data, const char *fname, Rng *rng
+    ) -> bool {
+        if (data->size() <= 1) {
+            return true;
+        }
+
+        ArrayStat stat(fname);
+
+        double mean = 0.0;
+        for (double x : *data) {
+            mean += x;
+        }
+        mean /= data->size();
+
+        if (!f_eq(stat.mean(), mean)) {
+            return false;
+        }
+
+        double rms = 0.0;
+        for (double x : *data) {
+            rms += (x - mean)*(x - mean);
+        }
+        rms = sqrt(rms/(data->size() - 1));
+
         if (!f_eq(stat.rms(), rms)) {
             return false;
         }
