@@ -64,7 +64,7 @@ double ArrayStat::mean() const {
 	if(this->sorted.empty())
 		throw std::length_error("Vector is empty");
 
-	return (double)std::accumulate(this->sorted.begin(), this->sorted.end(), 0) /
+	return (double)std::accumulate(this->sorted.begin(), this->sorted.end(), (double) 0) /
 		this->sorted.size();
 }
 
@@ -76,8 +76,8 @@ double ArrayStat::rms() const {
 		throw std::length_error("Vector is empty or includes only 1 element");
 
 	double rms = (double)std::accumulate(this->sorted.begin(),
-		this->sorted.end(), 0,
-		[](int sum, int el) {
+		this->sorted.end(), (double) 0,
+		[](double sum, double el) {
 			return sum + el * el;
 		}) / this->sorted.size();
 
