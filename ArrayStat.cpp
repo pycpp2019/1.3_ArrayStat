@@ -23,21 +23,21 @@ ArrayStat::ArrayStat(const char *file_name) : sorted(std::vector<int>()) {
 	size_t num_of_el = 0;
 
 	file >> num_of_el;
+	this->sorted.resize(num_of_el);
 
-	for(size_t i = 0; i < num_of_el; ++i) {
-		if(file.eof())
-			throw std::length_error("File format does not match required one");
+	std::for_each(this->sorted.begin(), this->sorted.end(),
+		[& file](int & el) {
+			if(file.eof())
+				throw std::length_error("File format does not match required one");
 
-		int tmp = 0;
-
-		file >> tmp;
-		this->sorted.insert(this->sorted.end(), tmp);
-	}
+			file >> el;
+		});
 
 	file.close();
-
 	std::sort(this->sorted.begin(), this->sorted.end());
 }
+
+
 
 
 int ArrayStat::max() const {
@@ -48,6 +48,8 @@ int ArrayStat::max() const {
 }
 
 
+
+
 int ArrayStat::min() const {
 	if(this->sorted.empty())
 		throw std::length_error("Vector is empty");
@@ -56,32 +58,44 @@ int ArrayStat::min() const {
 }
 
 
+
+
 double ArrayStat::mean() const {
 	if(this->sorted.empty())
 		throw std::length_error("Vector is empty");
 
-	return (double)std::accumulate(this->sorted.begin(), this->sorted.end(), 0) / this->sorted.size();
+	return (double)std::accumulate(this->sorted.begin(), this->sorted.end(), 0) /
+		this->sorted.size();
 }
+
+
 
 
 double ArrayStat::rms() const {
 	if(this->sorted.empty() || this->sorted.size() == 1)
 		throw std::length_error("Vector is empty or includes only 1 element");
 
-	double rms = (double)std::accumulate(this->sorted.begin(), this->sorted.end(), 0,
+	double rms = (double)std::accumulate(this->sorted.begin(),
+		this->sorted.end(), 0,
 		[](int sum, int el) {
 			return sum + el * el;
 		}) / this->sorted.size();
 
 	double mean = this->mean();
 
-	return std::sqrt((double)(rms - mean * mean) * this->sorted.size() / (this->sorted.size() - 1));
+	return std::sqrt((double)(rms - mean * mean) * this->sorted.size() /
+		(this->sorted.size() - 1));
 }
+
+
 
 
 size_t ArrayStat::countLarger (int el) const {
-	return this->sorted.end() - std::upper_bound(this->sorted.begin(), this->sorted.end(), el);
+	return this->sorted.end() -
+		std::upper_bound(this->sorted.begin(), this->sorted.end(), el);
 }
+
+
 
 
 void ArrayStat::print() const {
