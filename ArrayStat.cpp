@@ -1,6 +1,8 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <numeric>
+#include <functional>
 #include "ArrayStat.h"
 
 ArrayStat::ArrayStat(const char * name)
@@ -31,61 +33,56 @@ ArrayStat::ArrayStat(const char * name)
 
 int ArrayStat::max()
 {
-    if (arr.size()==0) return 0;
+    if (arr.size()==0) throw "Error";
     else
     return arr[arr.size()-1];
 }
 int ArrayStat::min()
 {
-    if (arr.size()==0) return 0;
+    if (arr.size()==0) throw "Error";
     else
     return arr[0];
 }
 double ArrayStat::mean()
 {
-    if (arr.size()==0) return 0;
+    if (arr.size()==0) throw "Error";
     else
     {
-    int n=arr.size();
-    double sum=0;
-    for (long int i=0; i<n; i++)
-    {
-        sum=sum+arr[i];
-    }
+    double n=arr.size();
+    double sum=accumulate(arr.begin(), arr.end(), (double)0);
     return sum/n;
     }
 }
 double ArrayStat::rms()
 {
-    if (arr.size()==0) return 0;
+    if (arr.size()==0 || arr.size()==1) throw "Error";
     else
     {
     double m=mean();
-    double S=0;
-    int n=arr.size();
-    for (long int i=0; i<n; i++)
-    {
-        S=S+(arr[i]-m)*(arr[i]-m);
-    }
-    S=sqrt(S/n);
+    double n=arr.size();
+    double S=accumulate(arr.begin(), arr.end(), (double)0, [](double sum, double el) {
+			return sum + el * el;})/n;
+    
+        S=sqrt((S - m * m) * n / (n-1));
     return S;
     }
 }
 size_t ArrayStat::countLarger(int a)
 {
+    if (arr.size()==0) throw "Error";
    if (arr.size() <= 2)
     {
         if (arr.size()==2)
         {
-        if (arr[0]>=a) return 2;
-        else if (arr[1]>=a) return 1;
+        if (arr[0]>a) return 2;
+        else if (arr[1]>a) return 1;
         else return 0;
         }
         else
         {
             if (arr.size()==1)
             {
-            if (arr[0]>=a)return 1;
+            if (arr[0]>a)return 1;
             else return 0;
             }
             else return 0;
@@ -99,7 +96,7 @@ size_t ArrayStat::countLarger(int a)
 }
 void ArrayStat::print()
 {
-    if (arr.size()!=0)
+    if (arr.size()!=0) 
     for (long int i=0; i<arr.size(); i++)
     {
         cout<< arr[i]<<" ";
@@ -109,8 +106,8 @@ void ArrayStat::print()
 int main() {
     ArrayStat stat("test.txt");
     stat.print();
-    cout <<"  mean="<< stat.mean() << "  rms=" << stat.rms();
-
+    cout <<"  a="<< stat.countLarger(2) << endl;
+      //cout << "max=" << stat.max() << endl;
     
     return 0;
 }
