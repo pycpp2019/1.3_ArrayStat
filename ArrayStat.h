@@ -1,18 +1,19 @@
-#pragma once
-
-#include <cstdlib>
-
-
-class ArrayStat {
-public:
-    ArrayStat(const char *file_name);
-
-    int max() const;
-    int min() const;
-
-    double mean() const;
-    double rms() const;
-
-    size_t countLarger(int a) const;
-    void print() const;
+#include <iostream>
+#include <vector>
+#include <exception>
+#include<string>
+using namespace std;
+class ArrayStat
+{
+    public:
+        int max();
+        int min();
+        double mean();
+        double rms();
+        size_t countLarger(int a);
+        ArrayStat(const char * name);
+        void print();
+    private:
+    vector<int> arr;
 };
+
