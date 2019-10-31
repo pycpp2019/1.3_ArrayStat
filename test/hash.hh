@@ -3,6 +3,8 @@
 #include <vector>
 #include <functional>
 
+#include "vec3.hh"
+
 
 class Hasher {
 private:
@@ -31,6 +33,16 @@ namespace std {
             for (const T &x : v) {
                 hasher.write(x);
             }
+            return hasher.finish();
+        }
+    };
+
+    template<> struct hash<Vec3> {
+        size_t operator()(const Vec3 &v) const {
+            Hasher hasher;
+            hasher.write(v.x);
+            hasher.write(v.y);
+            hasher.write(v.z);
             return hasher.finish();
         }
     };

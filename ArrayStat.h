@@ -15,6 +15,6 @@ public:
     double mean() const;
     double rms() const;
 
-    size_t countLarger(int a) const;
+    size_t countLarger(int key) const;
     void print() const;
 };
