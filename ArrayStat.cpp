@@ -3,6 +3,7 @@
 	#include <cmath>
 	#include "ArrayStat.h"
 	#include <iterator>
+	#include <numeric>
 	 
  	ArrayStat::ArrayStat(const char *file_name){
  		try{
@@ -33,21 +34,13 @@
 	}
 
     double ArrayStat::mean() const{
-    	int sum=0;
-    	std::multiset<int>::iterator it;
-		for (it=myset.begin(); it!=myset.end(); ++it){
-			sum+=*it;
-		}
+		int sum=std::accumulate(myset.begin(), --myset.end(), 0);
 		return sum/myset.size();
 	}
 	
     double ArrayStat::rms() const{
 		double m = mean();
-		int sum;
-		std::multiset<int>::iterator it;
-		for (it=myset.begin(); it!=myset.end(); ++it){
-			sum+=(m-*it)*(m-*it);
-		}
+		int sum = std::accumulate( myset.begin() , --myset.end() , 0 , [&m](int x, int y)->int{ return x+(m-y)*(m-y);} );
 		return sqrt(sum/myset.size());
 	}
 
