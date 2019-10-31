@@ -1,9 +1,11 @@
 #pragma once
-
+#include <set>
 #include <cstdlib>
 
 
 class ArrayStat {
+private:
+	std::multiset<int> myset;
 public:
     ArrayStat(const char *file_name);
 
