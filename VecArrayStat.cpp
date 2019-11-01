@@ -4,23 +4,23 @@
 	#include "VecArrayStat.h"
 	#include <iterator>
 	#include <numeric>
+	#include <algorithm> 
 	 
  	ArrayStat::ArrayStat(const char *file_name){
+ 		int N,buf;
+ 		double norm=0.0;
  		try{
 		 	std::ifstream fin(file_name);
  			if(fin.is_open() == false) throw "can't open the file";
- 			
-		
- 		int N,buf[3];
- 		double norm=0.0;
- 		fin>>N;
-		for(int i=0; i!=N; i++){
-			for(int j=0; j!=3; j++){
-			fin>>buf[j];	
+ 			fin>>N;
+			for(int i=0; i!=N; i++){
+				for(int j=0; j!=3; j++){
+					fin>>buf;
+					norm+=buf*buf;	
+				}
+				myset.insert(sqrt(norm));
+				norm=0.0;
 			}
-			norm=sqrt(buf[0]*buf[0]+buf[1]*buf[1]+buf[2]*buf[2]);
-			myset.insert(norm);
-		}
 	
  			fin.close();
  		}	
@@ -37,7 +37,8 @@
 		catch(char *error){
 		std::cout<<error;	
 		return 0;
-	}}
+		}
+	}
 
     double ArrayStat::min() const{
     	try{
@@ -47,7 +48,8 @@
 		catch(char *error){
 		std::cout<<error;
 		return 0;
-	}}
+		}
+	}
 
     double ArrayStat::mean() const{
     	try{
@@ -58,26 +60,31 @@
 		catch(char *error){
 		std::cout<<error;
 		return 0;
-	}}
+		}
+	}
+	
 
 	
     double ArrayStat::rms() const{
+    	double m = mean();
     	try{
     		if(myset.size()==0 || myset.size()==1) throw "rms error";
-			double m = mean();
-			double s=std::accumulate(myset.begin(),myset.end(),0.0,[&m](const double &x,const double &y)->double{return x+(m-y)*(m-y);});
-			return sqrt(s/(myset.size()-1));
+			double s=std::accumulate(myset.begin(),myset.end(),0.0,
+			[&m](const double &x,const double &y)->double{return x+(m-y)*(m-y);}
+			);
+			return sqrt(s/(myset.size()-1.0));
 		}
 		catch(char *error){
 		std::cout<<error;
 		return 0;
-	}}
+		}
+	}
 
     size_t ArrayStat::countLarger(double key) const{
 		return std::distance(myset.upper_bound(key),myset.end());
 	}
 	
     void ArrayStat::print() const{
-		copy( myset.begin(), myset.end(), std::ostream_iterator<int>(std::cout, " "));
+		copy( myset.begin(), myset.end(), std::ostream_iterator<double>(std::cout, "\n"));
 		std::cout<<std::endl;
 	}

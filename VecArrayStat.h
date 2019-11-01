@@ -5,7 +5,7 @@
 
 class ArrayStat {
 private:
-	std::multiset<int> myset;
+	std::multiset<double> myset;
 public:
     ArrayStat(const char *file_name);
 
