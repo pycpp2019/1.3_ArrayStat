@@ -1,9 +1,20 @@
 #pragma once
 
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 
 
-class ArrayStat {
+
+class ArrayStat 
+{
+private:
+	std::vector<int> data;
 public:
     ArrayStat(const char *file_name);
 

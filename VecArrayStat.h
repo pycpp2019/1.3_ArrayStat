@@ -1,9 +1,21 @@
+#pragma once
+
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 
-
-class ArrayStat {
+class VecArrayStat 
+{
+private:
+	std::vector<std::vector<double>> data;
+	std::vector<double> len;	
 public:
-    ArrayStat(const char *file_name);
+    VecArrayStat(const char *file_name);
 
     double max() const;
     double min() const;
