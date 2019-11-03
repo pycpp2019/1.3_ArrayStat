@@ -6,18 +6,7 @@
 #include <algorithm>
 #include "ArrayStat.h"
 using namespace std;
-/*class ArrayStat {
-vector<int> Array;
-public:
-    ArrayStat(const char *file_name);
 
-    int max() const;
-    int min() const;
-
-    double mean() const;
-    double rms() const;
-
-};*/
 double ArrayStat::rms()const{
 
 try{if (Array.size()<2) throw(1);
@@ -108,7 +97,7 @@ for (int i=0; i < (Array.size()); i++) {
 }
 }
 
-int main(){
+/*int main(){
 
     ArrayStat wow("D:/ArrayStat.txt.txt");
     wow.print();
@@ -116,4 +105,4 @@ int main(){
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
 
     return 0;
-}
+}*/
