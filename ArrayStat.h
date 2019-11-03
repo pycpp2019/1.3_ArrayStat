@@ -1,9 +1,10 @@
 #pragma once
-
+#include <vector>
 #include <cstdlib>
-
+#include <iostream>
 
 class ArrayStat {
+std::vector<int> Array;
 public:
     ArrayStat(const char *file_name);
 
