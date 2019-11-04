@@ -16,5 +16,6 @@ public:
     double rms() const;
 
     size_t countLarger(double key) const;
+
     void print() const;
 };
