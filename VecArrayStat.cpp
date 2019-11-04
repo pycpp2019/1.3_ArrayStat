@@ -74,11 +74,7 @@ double VecArrayStat::rms() const
 size_t VecArrayStat::countLarger(double a) const { return len.end() - std::upper_bound(len.begin(), len.end(), a) - 1; } 
 void VecArrayStat::print() const
 {
-	if (data.size() == 0)
-	{ 
-		throw 2;
-	}
-	else
+	if (data.size() != 0)
 	{
 		for (int i = 0; i < data.size(); ++i)
     	{
