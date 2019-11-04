@@ -28,7 +28,7 @@ ArrayStat::ArrayStat(const char *file_name)
 
 int ArrayStat::max() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}
@@ -39,7 +39,7 @@ int ArrayStat::max() const
 }
 int ArrayStat::min() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}
@@ -50,7 +50,7 @@ int ArrayStat::min() const
 }
 double ArrayStat::mean() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}

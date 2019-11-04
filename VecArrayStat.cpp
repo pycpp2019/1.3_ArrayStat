@@ -32,7 +32,7 @@ VecArrayStat::VecArrayStat(const char *file_name)
 }
 double VecArrayStat::max() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}
@@ -43,7 +43,7 @@ double VecArrayStat::max() const
 }
 double VecArrayStat::min() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}
@@ -54,7 +54,7 @@ double VecArrayStat::min() const
 }
 double VecArrayStat::mean() const
 {
-	if (data.size == 0)
+	if (data.size() == 0)
 	{ 
 		throw 2;
 	}
