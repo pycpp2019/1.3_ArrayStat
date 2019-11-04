@@ -12,7 +12,7 @@ VecArrayStat::VecArrayStat(const char *file_name)
 	{
 		int N;
 		file >> N;
-		if (!(N > 0)) { throw 0; }
+		if (!(N >= 0)) { throw 0; }
 		else
 		{
 			std::vector<double> a;
@@ -30,12 +30,42 @@ VecArrayStat::VecArrayStat(const char *file_name)
 	} 
 
 }
-double VecArrayStat::max() const { return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] < y[3];}))[3]; }
-double VecArrayStat::min() const { return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] > y[3];}))[3]; }
-double VecArrayStat::mean() const { return double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);})) / double(data.size());}
+double VecArrayStat::max() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] < y[3];}))[3];
+	}
+}
+double VecArrayStat::min() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] > y[3];}))[3];
+	}
+}
+double VecArrayStat::mean() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);})) / double(data.size());
+	}
+}
 double VecArrayStat::rms() const
 { 
-	if (data.size() != 1)
+	if (data.size() > 1)
 	{
 		return double(data.size()) / double(data.size() - 1) * (double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]*y[3]);})) / double(data.size()) - std::pow(double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);})) / double(data.size()),2));
 	}

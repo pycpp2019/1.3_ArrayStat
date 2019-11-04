@@ -12,7 +12,7 @@ ArrayStat::ArrayStat(const char *file_name)
 	{
 		int N;
 		file >> N;
-		if (!(N > 0)) { throw 0; }
+		if (!(N >= 0)) { throw 0; }
 		else
 		{
 			data.resize(N,1);
@@ -26,9 +26,39 @@ ArrayStat::ArrayStat(const char *file_name)
 
 }
 
-int ArrayStat::max() const { return *std::max_element(data.begin(), data.end()); }
-int ArrayStat::min() const { return *std::min_element(data.begin(), data.end()); }
-double ArrayStat::mean() const { return double(std::accumulate(data.begin(), data.end(), 0)) / double(data.size());}
+int ArrayStat::max() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return *std::max_element(data.begin(), data.end());
+	} 
+}
+int ArrayStat::min() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return *std::min_element(data.begin(), data.end());
+	}
+}
+double ArrayStat::mean() const
+{
+	if (data.size == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		return double(std::accumulate(data.begin(), data.end(), 0)) / double(data.size());
+	}
+}
 
 int sumsq(int x, int y)
 {
@@ -37,7 +67,7 @@ int sumsq(int x, int y)
 
 double ArrayStat::rms() const
 { 
-	if (data.size() != 1)
+	if (data.size() > 1)
 	{
 		return double(data.size()) / double(data.size() - 1) * (double(std::accumulate(data.begin(), data.end(), 0, sumsq)) / double(data.size()) - std::pow(double(std::accumulate(data.begin(), data.end(), 0)) / double(data.size()),2));
 	}
