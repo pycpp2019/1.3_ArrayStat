@@ -79,10 +79,17 @@ size_t ArrayStat::countLarger(int a) const { return data.end() - std::upper_boun
 
 void ArrayStat::print() const
 {
-	for (int i = 0; i < data.size() - 1; ++i)
-    {
-        std::cout << data[i] << " ";
-    }
-    std::cout << *(data.end() - 1) << std::endl;;
+	if (data.size() == 0)
+	{ 
+		throw 2;
+	}
+	else
+	{
+		for (int i = 0; i < data.size() - 1; ++i)
+    	{
+        	std::cout << data[i] << " ";
+    	}
+    	std::cout << *(data.end() - 1) << std::endl;;
+	}
 }
 
