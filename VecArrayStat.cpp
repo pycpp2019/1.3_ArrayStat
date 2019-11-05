@@ -37,8 +37,8 @@ if (Array.size()<1) throw(1);
 
 size_t ArrayStat::countLarger(double a) const{
         int k = 0;
-        std::for_each (Array.begin(), Array.end(), [&](int n)->double {if (n>a)  k += 1;});
-
+        std::for_each (Array.begin(), Array.end(), [&](int n)-> int{if (n>a)  k += 1;});
+return k;
 }
 
 
@@ -91,4 +91,4 @@ for (int i=0; i < (Array.size()); i++) {
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
 
     return 0;
-}*/
+}
