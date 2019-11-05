@@ -37,7 +37,7 @@ if (Array.size()<1) throw(1);
 
 size_t ArrayStat::countLarger(double a) const{
         int k = 0;
-        std::for_each (Array.begin(), Array.end(), [&](int n)-> int{if (n>a)  k += 1;});
+       k =Array.end()- lower_bound(Array.begin(),Array.end(), (a+1)) ;      /*std::for_each (Array.begin(), Array.end(), [&](int n)-> int{if (n>a)  k += 1;});*/
 return k;
 }
 
