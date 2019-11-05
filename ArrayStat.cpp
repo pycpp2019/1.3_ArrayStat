@@ -85,4 +85,4 @@ for (int i=0; i < (Array.size()); i++) {
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
 
     return 0;
-}
+}*/
