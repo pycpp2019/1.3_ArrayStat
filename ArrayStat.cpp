@@ -59,13 +59,13 @@ int N;
 ifile >> N;
 int k = N;
 
-for (int i=0; i < k; i++) {
+for (long int i=0; i < k; i++) {
     ifile >> N;
     Array.push_back(N);
 
-std::sort(Array.begin(),Array.end());
 
-}}
+
+}std::sort(Array.begin(),Array.end());}
 
 
 void ArrayStat::print() const{
