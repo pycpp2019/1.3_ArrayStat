@@ -62,7 +62,7 @@ int N;
 ifile >> N;
 int k = N;
 int o;
-for (int i=0; i < k; i++) {
+for (long int i=0; i < k; i++) {
     o=0;
     for(int j=0; j<3; j++){
         ifile >> N;
