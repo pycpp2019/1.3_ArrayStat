@@ -13,7 +13,7 @@ if (Array.size()<2) throw(1);
     else {
         double rms = 0.0;
         std::for_each (Array.begin(), Array.end(), [&](int n)->double {rms += (n - mean()) * (n - mean());});
-        return sqrt((rms)/Array.size());
+        return sqrt((rms)/(double)Array.size());
     }
 }
 
