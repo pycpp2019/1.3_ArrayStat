@@ -35,7 +35,7 @@ if (Array.size()<1) throw(1);
 
 size_t ArrayStat::countLarger(int a) const{
         int k = 0;
-        std::for_each (Array.begin(), Array.end(), [&](int n)->int {if (n>a)  k += 1;});
+  k =Array.end()- lower_bound(Array.begin(),Array.end(), (a+1)) ;   /* std::for_each (Array.begin(), Array.end(), [&](int n)->int {if (n>a)  k += 1;});*/
 return k;
 }
 
@@ -76,13 +76,14 @@ for (int i=0; i < (Array.size()); i++) {
 }
 }
 
-/*int main(){
+int main(){
 
     ArrayStat wow("D:/ArrayStat.txt.txt");
     wow.print();
-    cout <<">3 :"<< wow.countLarger(3) << endl;
+    cout <<">3 :"<< wow.countLarger(1) << endl;
    /* cout << "max is" << wow.max() << endl;
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
-
+*/
+wow.countLarger(5);
     return 0;
-}*/
+}
