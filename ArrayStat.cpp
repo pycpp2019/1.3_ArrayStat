@@ -23,7 +23,7 @@ double ArrayStat::mean() const {
 if (Array.size()<1) throw(1);
     else {
         double sum = std::accumulate(Array.begin(), Array.end(), 0);
-        return (sum/(Array.size()));
+        return (sum/(double)(Array.size()));
     }}
 
 int ArrayStat::max() const{
