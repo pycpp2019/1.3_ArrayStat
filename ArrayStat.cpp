@@ -76,14 +76,14 @@ for (int i=0; i < (Array.size()); i++) {
 }
 }
 
-int main(){
+/*int main(){
 
     ArrayStat wow("D:/ArrayStat.txt.txt");
     wow.print();
     cout <<">3 :"<< wow.countLarger(1) << endl;
-   /* cout << "max is" << wow.max() << endl;
+    cout << "max is" << wow.max() << endl;
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
-*/
+
 wow.countLarger(5);
     return 0;
-}
+}*/
