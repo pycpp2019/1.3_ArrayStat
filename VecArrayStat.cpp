@@ -24,7 +24,7 @@ double ArrayStat::mean() const {
 
 if (Array.size()<1) throw(1);
     else {
-        double sum = std::accumulate(Array.begin(), Array.end(), (double)0);
+        long double sum = std::accumulate(Array.begin(), Array.end(), (long double)0);
         return (sum/(double)(Array.size()));
     }
 }
@@ -38,7 +38,7 @@ if (Array.size()<1) throw(1);
 
 size_t ArrayStat::countLarger(double a) const{
         int k = 0;
-       k =Array.end()- lower_bound(Array.begin(),Array.end(), (a+1)) ;      /*std::for_each (Array.begin(), Array.end(), [&](int n)-> int{if (n>a)  k += 1;});*/
+       k =Array.size() - (upper_bound(Array.begin(),Array.end(), (a)) - Array.begin()) ;      /*std::for_each (Array.begin(), Array.end(), [&](int n)-> int{if (n>a)  k += 1;});*/
 return k;
 }
 
@@ -89,8 +89,8 @@ for (int i=0; i < (Array.size()); i++) {
     ArrayStat wow("D:/VecArrayStat.txt.txt");
     wow.print();
     cout << "max is" << wow.max() << endl;
-    cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
-    cout <<">1.999 :"<< wow.countLarger(1.999) << endl;
+    cout <<"mean" << wow.mean()<<"rms is"<< wow.rms()<< endl;
+    cout <<">3.999 :"<< wow.countLarger(4.5825) << endl;
     return 0;
 }*/
 
