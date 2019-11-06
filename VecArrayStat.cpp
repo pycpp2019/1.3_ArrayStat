@@ -13,8 +13,8 @@ if (Array.size()<2) throw(1);
     else {
         double m = mean();
         double rms =(double)0;
-        std::for_each (Array.begin(), Array.end(), [&](int n)->double {rms += (n - m) * (n - m);});
-        return sqrt((rms)/((double)Array.size()-1));
+        std::for_each (Array.begin(), Array.end(), [&](double n)->double {rms += (n - m) * (n - m);});
+        return sqrt((rms)/((Array.size()-1));
     }
 }
 
