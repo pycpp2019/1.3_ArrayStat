@@ -11,9 +11,10 @@ double ArrayStat::rms()const{
 
 if (Array.size()<2) throw(1);
     else {
+            double m = mean();
         double rms = 0.0;
-        std::for_each (Array.begin(), Array.end(), [&](int n)->double {rms += (n - mean()) * (n - mean());});
-        return sqrt((rms)/Array.size());
+        std::for_each (Array.begin(), Array.end(), [&](int n)->double {rms += (n - m) * (n - m);});
+        return sqrt((rms)/(Array.size()-1));
     }
 }
 
@@ -22,7 +23,7 @@ double ArrayStat::mean() const {
 
 if (Array.size()<1) throw(1);
     else {
-        double sum = std::accumulate(Array.begin(), Array.end(), 0);
+        double sum = std::accumulate(Array.begin(), Array.end(),(double) 0);
         return (sum/(double)(Array.size()));
     }}
 
@@ -80,7 +81,7 @@ for (int i=0; i < (Array.size()); i++) {
 
     ArrayStat wow("D:/ArrayStat.txt.txt");
     wow.print();
-    cout <<">3 :"<< wow.countLarger(1) << endl;
+    cout <<">1 :"<< wow.countLarger(1) << endl;
     cout << "max is" << wow.max() << endl;
     cout <<wow.mean()<<"rms is"<< wow.rms()<< endl;
 
