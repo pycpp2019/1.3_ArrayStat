@@ -56,21 +56,21 @@ double ArrayStat::mean() const
 	}
 	else
 	{
-		return double(std::accumulate(data.begin(), data.end(), 0)) / double(data.size());
+		return double(std::accumulate(data.begin(), data.end(), double(0),[](double x, int y) { return double(x) + double(y);} )) / double(data.size());
 	}
 }
 
-int sumsq(int x, int y)
+int sumsq(double x, int y)
 {
-	return x + y*y;
+	return x + double(y)*double(y);
 }
 
 double ArrayStat::rms() const
 { 
 	if (data.size() > 1)
 	{
-		double sum = double(std::accumulate(data.begin(), data.end(), 0));
-		double sq_sum = double(std::accumulate(data.begin(), data.end(), 0, sumsq));
+		double sum = double(std::accumulate(data.begin(), data.end(), double(0),[](double x, int y) { return double(x) + double(y);} ));
+		double sq_sum = double(std::accumulate(data.begin(), data.end(), double(0), sumsq));
 		return sqrt((sq_sum - sum*sum/data.size()) / (data.size() - 1));
 	}
 	else { throw 2; }
