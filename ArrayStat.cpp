@@ -8,15 +8,12 @@
 
 
  	ArrayStat::ArrayStat(const char *file_name){
- 		int N,buf=0;
+ 		int N=0;
 		try{
 		 	std::ifstream fin(file_name);
  			if(fin.is_open() == false) throw "can't open the file";
  			fin>>N;
-			for(int i=0; i!=N; i++){
-				fin>>buf;
-				myset.push_back(buf);
-			}
+			std::copy_n(std::istream_iterator<int>(fin),N,std::back_inserter(myset));
  			fin.close();
  		}	
 		catch(char *error){
