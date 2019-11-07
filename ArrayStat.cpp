@@ -4,8 +4,9 @@
 	#include "ArrayStat.h"
 	#include <iterator>
 	#include <numeric>
-	#include <algorithm> 
-	 
+	#include <algorithm>
+
+
  	ArrayStat::ArrayStat(const char *file_name){
  		int N,buf=0;
 		try{
@@ -14,19 +15,21 @@
  			fin>>N;
 			for(int i=0; i!=N; i++){
 				fin>>buf;
-				myset.insert(buf);
+				myset.push_back(buf);
 			}
  			fin.close();
  		}	
 		catch(char *error){
 		std::cout<<error;
 		}
+		std::sort(myset.begin(),myset.end());
  	}
+ 	
 
     int ArrayStat::max() const{
     	try{
     		if(myset.size()==0) throw "max 0 error";
-			return *(--myset.end());
+			return myset.back();
 		}
 		catch(char *error){
 		std::cout<<error;	
@@ -37,7 +40,7 @@
     int ArrayStat::min() const{
     	try{
     		if(myset.size()==0) throw "min 0 error";
-			return *myset.begin();
+			return myset.front();
 		}
 		catch(char *error){
 		std::cout<<error;
@@ -74,7 +77,7 @@
 	}
 
     size_t ArrayStat::countLarger(int key) const{
-		return std::distance(myset.upper_bound(key),myset.end());
+    	return myset.end()-std::upper_bound(myset.begin(),myset.end(),key);
 	}
 	
     void ArrayStat::print() const{

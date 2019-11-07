@@ -7,8 +7,8 @@
 	#include <algorithm> 
 	 
  	ArrayStat::ArrayStat(const char *file_name){
- 		int N,buf;
- 		double norm=0.0;
+ 		int N;
+ 		double buf,norm=0.0;
  		try{
 		 	std::ifstream fin(file_name);
  			if(fin.is_open() == false) throw "can't open the file";
@@ -18,7 +18,7 @@
 					fin>>buf;
 					norm+=buf*buf;	
 				}
-				myset.insert(sqrt(norm));
+				myset.push_back(sqrt(norm));
 				norm=0.0;
 			}
 	
@@ -27,12 +27,13 @@
 		catch(char *error){
 		std::cout<<error;
 		}
+		std::sort(myset.begin(),myset.end());
  	}
 
     double ArrayStat::max() const{
     	try{
     		if(myset.size()==0) throw "max 0 error";
-			return *(--myset.end());
+			return myset.back();
 		}
 		catch(char *error){
 		std::cout<<error;	
@@ -43,7 +44,7 @@
     double ArrayStat::min() const{
     	try{
     		if(myset.size()==0) throw "min 0 error";
-			return *myset.begin();
+			return myset.front();
 		}
 		catch(char *error){
 		std::cout<<error;
@@ -81,7 +82,7 @@
 	}
 
     size_t ArrayStat::countLarger(double key) const{
-		return std::distance(myset.upper_bound(key),myset.end());
+		return myset.end()-std::upper_bound(myset.begin(),myset.end(),key);
 	}
 	
     void ArrayStat::print() const{
