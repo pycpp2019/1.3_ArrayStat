@@ -1,7 +1,7 @@
-#include "ArrayStat.h"
+#include "VecArrayStat.h"
 
 int main()
 {
 	ArrayStat a("input.txt");
-	std::cout << a.rms();
+	a.print();
 }

@@ -73,14 +73,14 @@ double ArrayStat::rms() const
 	}
 	else { throw 2; }
 }
-size_t ArrayStat::countLarger(double a) const { return len.end() - std::upper_bound(len.begin(), len.end(), a) - 1; } 
+size_t ArrayStat::countLarger(double a) const { return len.end() - std::upper_bound(len.begin(), len.end(), a); } 
 void ArrayStat::print() const
 {
 	if (data.size() != 0)
 	{
 		for (int i = 0; i < data.size(); ++i)
     	{
-        	std::cout << data[i][0] << " " << data[i][1] << " " << data[i][2] << " " << data[i][3] << std::endl;;
+        	std::cout << data[i][0] << " " << data[i][1] << " " << data[i][2] << std::endl;;
     	}
 	}
 }
