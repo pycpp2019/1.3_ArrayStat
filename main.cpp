@@ -3,5 +3,5 @@
 int main()
 {
 	ArrayStat a("input.txt");
-	a.print();
+	std::cout << a.countLarger(3.0);
 }

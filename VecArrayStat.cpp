@@ -26,6 +26,7 @@ ArrayStat::ArrayStat(const char *file_name)
             	len[i] = data[i][3];
         	}
         	std::sort(data.begin(),data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] < y[3];});
+        	std::sort(len.begin(),len.end());
     	}
 	} 
 
