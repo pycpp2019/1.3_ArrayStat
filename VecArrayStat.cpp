@@ -80,7 +80,7 @@ void ArrayStat::print() const
 	{
 		for (int i = 0; i < data.size(); ++i)
     	{
-        	std::cout << data[i][0] << " " << data[i][1] << " " << data[i][2] << std::endl;;
+        	std::cout << data[i][3] << " ";
     	}
 	}
 }
