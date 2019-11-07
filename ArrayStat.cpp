@@ -60,9 +60,11 @@ double ArrayStat::mean() const
 	}
 }
 
-int sumsq(double x, int y)
+double sumsq(double x, double y)
 {
-	return x + double(y)*double(y);
+	//std::cout << double(x) << " + ";
+	//std::cout  << double(y)*double(y) << " = " << double(x) + double(y)*double(y) << std::endl;
+	return double(x) + double(y)*double(y);
 }
 
 double ArrayStat::rms() const
