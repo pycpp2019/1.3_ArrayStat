@@ -9,13 +9,13 @@
 #include <numeric>
 #include <cmath>
 
-class VecArrayStat 
+class ArrayStat 
 {
 private:
 	std::vector<std::vector<double>> data;
 	std::vector<double> len;	
 public:
-    VecArrayStat(const char *file_name);
+    ArrayStat(const char *file_name);
 
     double max() const;
     double min() const;

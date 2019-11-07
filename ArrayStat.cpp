@@ -69,7 +69,9 @@ double ArrayStat::rms() const
 { 
 	if (data.size() > 1)
 	{
-		return double(data.size()) / double(data.size() - 1) * (double(std::accumulate(data.begin(), data.end(), 0, sumsq)) / double(data.size()) - std::pow(double(std::accumulate(data.begin(), data.end(), 0)) / double(data.size()),2));
+		double sum = double(std::accumulate(data.begin(), data.end(), 0));
+		double sq_sum = double(std::accumulate(data.begin(), data.end(), 0, sumsq));
+		return sqrt((sq_sum - sum*sum/data.size()) / (data.size() - 1));
 	}
 	else { throw 2; }
 } 

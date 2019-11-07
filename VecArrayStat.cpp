@@ -1,7 +1,7 @@
 #include "VecArrayStat.h"
 
 
-VecArrayStat::VecArrayStat(const char *file_name)
+ArrayStat::ArrayStat(const char *file_name)
 {
 	std::ifstream file(file_name);
 	if (!file) 
@@ -30,7 +30,7 @@ VecArrayStat::VecArrayStat(const char *file_name)
 	} 
 
 }
-double VecArrayStat::max() const
+double ArrayStat::max() const
 {
 	if (data.size() == 0)
 	{ 
@@ -41,7 +41,7 @@ double VecArrayStat::max() const
 		return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] < y[3];}))[3];
 	}
 }
-double VecArrayStat::min() const
+double ArrayStat::min() const
 {
 	if (data.size() == 0)
 	{ 
@@ -52,7 +52,7 @@ double VecArrayStat::min() const
 		return (*std::max_element(data.begin(), data.end(),[] (std::vector<double> x, std::vector<double> y){ return x[3] > y[3];}))[3];
 	}
 }
-double VecArrayStat::mean() const
+double ArrayStat::mean() const
 {
 	if (data.size() == 0)
 	{ 
@@ -63,16 +63,18 @@ double VecArrayStat::mean() const
 		return double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);})) / double(data.size());
 	}
 }
-double VecArrayStat::rms() const
+double ArrayStat::rms() const
 { 
 	if (data.size() > 1)
 	{
-		return double(data.size()) / double(data.size() - 1) * (double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]*y[3]);})) / double(data.size()) - std::pow(double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);})) / double(data.size()),2));
+		double sum = double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]);}));
+		double sq_sum = double(std::accumulate(data.begin(), data.end(), double(0), [] (double x, std::vector<double> y){ return double(x + y[3]*y[3]);}));
+		return sqrt((sq_sum - sum*sum/data.size()) / (data.size() - 1));
 	}
 	else { throw 2; }
 }
-size_t VecArrayStat::countLarger(double a) const { return len.end() - std::upper_bound(len.begin(), len.end(), a) - 1; } 
-void VecArrayStat::print() const
+size_t ArrayStat::countLarger(double a) const { return len.end() - std::upper_bound(len.begin(), len.end(), a) - 1; } 
+void ArrayStat::print() const
 {
 	if (data.size() != 0)
 	{
