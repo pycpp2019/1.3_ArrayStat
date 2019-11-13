@@ -4,7 +4,7 @@
 #include <iostream>
 
 class ArrayStat {
-std::vector<int> Array;
+    std::vector<int> Array;
 public:
     ArrayStat(const char *file_name);
 
