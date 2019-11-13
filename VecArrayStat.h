@@ -5,7 +5,7 @@
 
 
 class ArrayStat {
-std::vector<double> Array;
+    std::vector<double> Array;
 
 public:
     ArrayStat(const char *file_name);
