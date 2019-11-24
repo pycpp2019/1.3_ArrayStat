@@ -26,8 +26,8 @@ class ArrayStat {
 public:
     ArrayStat(const char *file_name);
 
-    int max() const;
-    int min() const;
+    double max() const;
+    double min() const;
 
     double mean() const;
     double rms() const;

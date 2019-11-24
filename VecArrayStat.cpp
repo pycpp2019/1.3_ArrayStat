@@ -39,31 +39,31 @@ ArrayStat:: ArrayStat(const char *file_name){
             }
         }
         catch(int i){
-        cout << "not a number";}
+        if (i==1) cout << "not a number";}
     }
     catch (int i){
-        cout << "no file";}
+        if(i==0) cout << "no file";}
 
 
 }
 
-int ArrayStat:: max() const{
+double ArrayStat:: max() const{
     try{
         if(this->n==0)
             throw 10;
         return *(this->m.end());
     }
     catch(int i){
-        cout << "n=0";}
+       if(i==10) cout << "n=0";}
 }
-int ArrayStat:: min() const{
+double ArrayStat:: min() const{
     try{
         if(this->n==0)
             throw 10;
         return *(this->m.begin());
     }
     catch(int i){
-        cout <<"n=0";}
+       if(i==10) cout <<"n=0";}
 }
 
 double ArrayStat:: mean() const{
@@ -90,13 +90,14 @@ size_t ArrayStat:: countLarger(int a) const{
         return s;
 }
 void ArrayStat:: print() const{
-    copy( m.begin(), m.end(), ostream_iterator<int>(cout, " "));
+    copy( m.begin(), m.end(), ostream_iterator<double>(cout, " "));
 
 }
 int main(){
     ArrayStat m=ArrayStat("a.txt");
-    double a=m.countLarger(-1);
-    cout << a << ' ';
+    double a=m.min();
+
+   cout << a << ' ';
     return 0;
 
 }
