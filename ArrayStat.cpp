@@ -23,8 +23,10 @@ using namespace std;
 ArrayStat:: ArrayStat(const char *file_name){
     try{
         ifstream file(file_name);
-        if(!file)
+        if(!file){
             throw 0;
+            break;
+        }
         try{
             file >> this->n;
             if(!this->n)
