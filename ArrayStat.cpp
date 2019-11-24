@@ -25,7 +25,6 @@ ArrayStat:: ArrayStat(const char *file_name){
         ifstream file(file_name);
         if(!file){
             throw 0;
-            break;
         }
         try{
             file >> this->n;
@@ -42,10 +41,10 @@ ArrayStat:: ArrayStat(const char *file_name){
             }
         }
         catch(int i){
-        if (i==1) cout << "not a number";}
+        cout << "not a number error: " << i;}
     }
     catch (int i){
-        if(i== 0) cout << "no file";}
+        cout << "no file error: " << i;}
 
 
 }
@@ -54,7 +53,9 @@ int ArrayStat:: max() const{
     try{
         if(this->n==0)
             throw 10;
+
         return *(this->m.end());
+
     }
     catch(int i){
        if(i==10) cout << "n=0";}
@@ -93,7 +94,9 @@ size_t ArrayStat:: countLarger(int a) const{
         return s;
 }
 void ArrayStat:: print() const{
-    copy( m.begin(), m.end(), ostream_iterator<double>(cout, " "));
-
+    multiset <int> :: iterator it = this->m.begin();
+   for (int i = 1; it != this->m.end(); i++, it++) {
+        cout << *it << " ";
+    }
 }
 

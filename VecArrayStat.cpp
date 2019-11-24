@@ -23,8 +23,9 @@ using namespace std;
 ArrayStat:: ArrayStat(const char *file_name){
     try{
         ifstream file(file_name);
-        if(!file)
+        if(!file){
             throw 0;
+        }
         try{
             file >> this->n;
             if(this->n<0)
@@ -39,7 +40,7 @@ ArrayStat:: ArrayStat(const char *file_name){
             }
         }
         catch(int i){
-        if (i==1) cout << "not a number";}
+        if (i==1) cout << "not a number: error -" << i;}
     }
     catch (int i){
         if(i==0) cout << "no file";}
@@ -90,14 +91,16 @@ size_t ArrayStat:: countLarger(int a) const{
         return s;
 }
 void ArrayStat:: print() const{
-    copy( m.begin(), m.end(), ostream_iterator<double>(cout, " "));
+    multiset <double> :: iterator it = this->m.begin();
+   for (int i = 1; it != this->m.end(); i++, it++) {
+        cout << *it << " ";
+    }
 
 }
 int main(){
     ArrayStat m=ArrayStat("a.txt");
     double a=m.min();
-
-   cout << a << ' ';
+    m.print();
     return 0;
 
 }
