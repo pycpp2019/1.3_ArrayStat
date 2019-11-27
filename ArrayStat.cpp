@@ -88,7 +88,7 @@ float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
             throw exception();
-        return sqrt(fabs(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0,square())/this->n)));
+        return sqrt(fabs(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0.0,square())/this->n)));
     }
     catch (exception arr){
         cout << "n=0or1";

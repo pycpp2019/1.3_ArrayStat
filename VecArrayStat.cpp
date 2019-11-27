@@ -66,7 +66,7 @@ float ArrayStat:: mean() const{
     try{
         if(this->n==0)
             throw exception();
-        return double(accumulate(this->m.begin(),this->m.end(),0))/this->n;
+        return float(accumulate(this->m.begin(),this->m.end(),0.0))/this->n;
     }
     catch (exception err){
         cout << "n=0";}
@@ -101,12 +101,12 @@ void ArrayStat:: print() const{
     cout << "n=0";
     }
 }
-/*int main(){
+int main(){
     ArrayStat m=ArrayStat("a.txt");
-    size_t a=m.countLarger(1);
+    float a=m.mean();
     cout << a << endl;
     m.print();
     return 0;
 
-}*/
+}
 
