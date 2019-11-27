@@ -46,7 +46,7 @@ float ArrayStat:: max() const{
     try{
         if(this->n==0)
             throw exception();
-            return *(this->m.end());
+            return *(prev(this->m.end()));
     }
     catch(exception err){
        cout << "n=0";
@@ -81,7 +81,11 @@ float ArrayStat:: rms() const{
         cout << "n=0or1";}
 }
 size_t ArrayStat:: countLarger(int a) const{
-    return distance(this->m.upper_bound(a),this->m.end());
+    if(this->n==0)
+        return 0;
+    if(a>this->mean())
+        return distance(this->m.upper_bound(a),this->m.end());
+    else return this->n-distance(this->m.begin(),this->m.upper_bound(a));
 }
 void ArrayStat:: print() const{
     try{
@@ -97,13 +101,12 @@ void ArrayStat:: print() const{
     cout << "n=0";
     }
 }
-int main(){
-    ArrayStat m=ArrayStat("ahfghr.txt");
-    size_t a=m.countLarger(18);
+/*int main(){
+    ArrayStat m=ArrayStat("a.txt");
+    size_t a=m.countLarger(1);
     cout << a << endl;
-    float p=m.min();
     m.print();
     return 0;
 
-}
+}*/
 

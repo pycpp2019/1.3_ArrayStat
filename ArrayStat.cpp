@@ -56,7 +56,7 @@ int ArrayStat:: max() const{
         if(this->n==0)
             throw exception();
 
-        return *(this->m.end());
+        return *prev((this->m.end()));
 
     }
     catch(exception err){
@@ -95,7 +95,11 @@ float ArrayStat:: rms() const{
     }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    return distance(this->m.upper_bound(a),this->m.end());
+    if(this->n==0)
+        return 0;
+    if(a>this->mean())
+        return distance(this->m.upper_bound(a),this->m.end());
+    else return this->n-distance(this->m.begin(),this->m.upper_bound(a));
 }
 void ArrayStat:: print() const{
     try{
