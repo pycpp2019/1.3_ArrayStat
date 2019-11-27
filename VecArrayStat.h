@@ -14,10 +14,7 @@ struct square
     double operator()(const double& Left, const double& Right) const;
 };
 
-struct one
-{
-    double operator()(const double& Left, const double& Right) const;
-};
+
 
 
 class ArrayStat {
