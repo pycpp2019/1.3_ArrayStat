@@ -70,20 +70,20 @@ int ArrayStat:: min() const{
        if(i==10) cout <<"n=0";}
 }
 
-double ArrayStat:: mean() const{
+float ArrayStat:: mean() const{
     try{
         if(this->n==0)
             throw 10;
-        return accumulate(this->m.begin(),this->m.end(),0)/this->n;
+        return float(accumulate(this->m.begin(),this->m.end(),0)/this->n);
     }
     catch (int i){
         cout << "n=0";}
 }
-double ArrayStat:: rms() const{
+float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
             throw 100;
-        return sqrt(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0,square())/this->n));
+        return sqrt(fabs(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0,square())/this->n)));
     }
     catch (int i){
         cout << "n=0or1";}

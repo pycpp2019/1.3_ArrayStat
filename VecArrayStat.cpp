@@ -48,7 +48,7 @@ ArrayStat:: ArrayStat(const char *file_name){
 
 }
 
-double ArrayStat:: max() const{
+float ArrayStat:: max() const{
     try{
         if(this->n==0)
             throw 10;
@@ -57,7 +57,7 @@ double ArrayStat:: max() const{
     catch(int i){
        if(i==10) cout << "n=0";}
 }
-double ArrayStat:: min() const{
+float ArrayStat:: min() const{
     try{
         if(this->n==0)
             throw 10;
@@ -67,7 +67,7 @@ double ArrayStat:: min() const{
        if(i==10) cout <<"n=0";}
 }
 
-double ArrayStat:: mean() const{
+float ArrayStat:: mean() const{
     try{
         if(this->n==0)
             throw 10;
@@ -76,11 +76,11 @@ double ArrayStat:: mean() const{
     catch (int i){
         cout << "n=0";}
 }
-double ArrayStat:: rms() const{
+float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
             throw 100;
-        return sqrt(double(accumulate(this->m.begin(),this->m.end(),0,square()))/this->n-(this->mean()*this->mean()));
+        return sqrt(float(accumulate(this->m.begin(),this->m.end(),0,square()))/this->n-(this->mean()*this->mean()));
     }
     catch (int i){
         cout << "n=0or1";}
@@ -91,17 +91,17 @@ size_t ArrayStat:: countLarger(int a) const{
         return s;
 }
 void ArrayStat:: print() const{
-    multiset <double> :: iterator it = this->m.begin();
+    multiset <float> :: iterator it = this->m.begin();
    for (int i = 1; it != this->m.end(); i++, it++) {
         cout << *it << " ";
     }
 
 }
-int main(){
+/*int main(){
     ArrayStat m=ArrayStat("a.txt");
     double a=m.min();
     m.print();
     return 0;
 
 }
-
+*/

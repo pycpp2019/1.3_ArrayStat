@@ -22,15 +22,15 @@ struct one
 
 class ArrayStat {
     int n;
-    std::multiset<double> m;
+    std::multiset<float> m;
 public:
     ArrayStat(const char *file_name);
 
-    double max() const;
-    double min() const;
+    float max() const;
+    float min() const;
 
-    double mean() const;
-    double rms() const;
+    float mean() const;
+    float rms() const;
 
     size_t countLarger(int a) const;
     void print() const;
