@@ -11,15 +11,6 @@
 #include "ArrayStat.h"
 using namespace std;
 
-   int square::  operator()(const int& Left, const int& Right) const
-    {
-        return (Left + Right*Right);
-    }
-    int one::  operator()(const int& Left, const int& Right) const
-    {
-        return 1;
-    }
-
 ArrayStat:: ArrayStat(const char *file_name){
     this->n=-5;
     try{
@@ -78,7 +69,7 @@ float ArrayStat:: mean() const{
     try{
         if(this->n==0)
             throw exception();
-        return float(accumulate(this->m.begin(),this->m.end(),0.0)/this->n);
+        return float(accumulate(this->m.begin(),this->m.end(),0.0)/float(this->n));
     }
     catch (exception err){
         cout << "n=0";
@@ -88,7 +79,7 @@ float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
             throw exception();
-        return sqrt(fabs(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0.0,square())/this->n)));
+        return sqrt(inner_product(this->m.begin(),this->m.end(), this->m.begin(),0.0)/this->n-float(this->mean()*this->mean()));
     }
     catch (exception arr){
         cout << "n=0or1";
@@ -116,10 +107,11 @@ void ArrayStat:: print() const{
         cout << "empty";
     }
 }
+
 /*int main(){
     ArrayStat m=ArrayStat("a.txt");
-float a=m.mean();
-cout << a;
-return 0;
+    float a=m.rms();
+    cout << a;
+    return 0;
 }*/
 

@@ -66,7 +66,7 @@ float ArrayStat:: mean() const{
     try{
         if(this->n==0)
             throw exception();
-        return float(accumulate(this->m.begin(),this->m.end(),0.0))/this->n;
+        return float(float(accumulate(this->m.begin(),this->m.end(),0.0))/float(this->n));
     }
     catch (exception err){
         cout << "n=0";}
@@ -75,10 +75,11 @@ float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
             throw exception();
-        return sqrt(float(accumulate(this->m.begin(),this->m.end(),0,square()))/this->n-(this->mean()*this->mean()));
+        return sqrt(inner_product(this->m.begin(),this->m.end(), this->m.begin(),0.0)/this->n-float(this->mean()*this->mean()));
     }
-    catch (exception err){
-        cout << "n=0or1";}
+    catch (exception arr){
+        cout << "n=0or1";
+    }
 }
 size_t ArrayStat:: countLarger(int a) const{
     if(this->n==0)
@@ -108,5 +109,5 @@ void ArrayStat:: print() const{
     m.print();
     return 0;
 
-}
-*/
+}*/
+
