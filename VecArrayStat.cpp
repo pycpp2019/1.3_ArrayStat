@@ -86,22 +86,25 @@ float ArrayStat:: rms() const{
         cout << "n=0or1";}
 }
 size_t ArrayStat:: countLarger(int a) const{
-    size_t s=0;
-        s=accumulate(this->m.upper_bound(a),this->m.end(),0,one());
-        return s;
+    return distance(this->m.upper_bound(a),this->m.end());
 }
 void ArrayStat:: print() const{
+    if(this->n==0)
+        cout << "empty";
+    else{
     multiset <float> :: iterator it = this->m.begin();
    for (int i = 1; it != this->m.end(); i++, it++) {
         cout << *it << " ";
     }
-
+    }
 }
 /*int main(){
     ArrayStat m=ArrayStat("a.txt");
-    double a=m.min();
+    size_t a=m.countLarger(18);
+    cout << a << endl;
+    float p=m.min();
     m.print();
     return 0;
 
-}
-*/
+}*/
+

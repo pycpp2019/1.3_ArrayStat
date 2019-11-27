@@ -89,14 +89,16 @@ float ArrayStat:: rms() const{
         cout << "n=0or1";}
 }
 size_t ArrayStat:: countLarger(int a) const{
-    size_t s=0;
-        accumulate(m.upper_bound(a),m.end(),0,one());
-        return s;
+    return distance(this->m.upper_bound(a),this->m.end());
 }
 void ArrayStat:: print() const{
+    if(this->n==0)
+        cout << "empty";
+    else{
     multiset <int> :: iterator it = this->m.begin();
    for (int i = 1; it != this->m.end(); i++, it++) {
         cout << *it << " ";
+    }
     }
 }
 
