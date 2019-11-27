@@ -1,5 +1,5 @@
 #pragma once
-
+# include <exception>
 #include <cstdlib>
 #include <iostream>
 #include <set>
@@ -24,27 +24,27 @@ ArrayStat:: ArrayStat(const char *file_name){
     try{
         ifstream file(file_name);
         if(!file){
-            throw 0;
+            throw exception();
         }
         try{
             file >> this->n;
             if(!this->n)
-                throw 1;
+                throw exception();
             int a;
             for(int i=1;i<=this->n;i++){
-
                     file >> a;
-
                     this->m.insert(a);
-
-
             }
         }
-        catch(int i){
-        cout << "not a number error: " << i;}
+
+        catch(exception err){
+            cout << "not a number error: " ;
+
     }
-    catch (int i){
-        cout << "no file error: " << i;}
+    }
+    catch (exception err){
+        cout << "no file error: " ;
+    }
 
 
 }
@@ -52,53 +52,62 @@ ArrayStat:: ArrayStat(const char *file_name){
 int ArrayStat:: max() const{
     try{
         if(this->n==0)
-            throw 10;
+            throw exception();
 
         return *(this->m.end());
 
     }
-    catch(int i){
-       if(i==10) cout << "n=0";}
+    catch(exception err){
+       cout << "n=0";
+    }
 }
 int ArrayStat:: min() const{
     try{
         if(this->n==0)
-            throw 10;
+            throw exception();
         return *(this->m.begin());
     }
-    catch(int i){
-       if(i==10) cout <<"n=0";}
+    catch(exception arr){
+       cout <<"n=0";
+    }
 }
 
 float ArrayStat:: mean() const{
     try{
         if(this->n==0)
-            throw 10;
+            throw exception();
         return float(accumulate(this->m.begin(),this->m.end(),0)/this->n);
     }
-    catch (int i){
-        cout << "n=0";}
+    catch (exception err){
+        cout << "n=0";
+    }
 }
 float ArrayStat:: rms() const{
     try{
         if(this->n==0||this->n==1)
-            throw 100;
+            throw exception();
         return sqrt(fabs(this->mean()*this->mean()+(accumulate(this->m.begin(),this->m.end(),0,square())/this->n)));
     }
-    catch (int i){
-        cout << "n=0or1";}
+    catch (exception arr){
+        cout << "n=0or1";
+    }
 }
 size_t ArrayStat:: countLarger(int a) const{
     return distance(this->m.upper_bound(a),this->m.end());
 }
 void ArrayStat:: print() const{
-    if(this->n==0)
-        cout << "empty";
-    else{
-    multiset <int> :: iterator it = this->m.begin();
-   for (int i = 1; it != this->m.end(); i++, it++) {
-        cout << *it << " ";
+    try{
+        if(this->n==0)
+            throw exception();
+        else{
+            multiset <int> :: iterator it = this->m.begin();
+            for (int i = 1; it != this->m.end(); i++, it++) {
+                cout << *it << " ";
+            }
+        }
     }
+    catch(exception err){
+        cout << "empty";
     }
 }
 
