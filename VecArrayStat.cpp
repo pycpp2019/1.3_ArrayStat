@@ -101,7 +101,7 @@ void ArrayStat:: print() const{
     cout << "n=0";
     }
 }
-int main(){
+/*int main(){
     ArrayStat m=ArrayStat("a.txt");
     float a=m.mean();
     cout << a << endl;
@@ -109,4 +109,4 @@ int main(){
     return 0;
 
 }
-
+*/
