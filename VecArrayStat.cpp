@@ -15,10 +15,6 @@ using namespace std;
     {
         return (Left + Right*Right);
     }
-    double one::  operator()(const double& Left, const double& Right) const
-    {
-        return Left+1;
-    }
 
 ArrayStat:: ArrayStat(const char *file_name){
     this->n=-5;
@@ -26,6 +22,7 @@ ArrayStat:: ArrayStat(const char *file_name){
         ifstream file(file_name);
         if(!file)
             throw exception();
+            try{
          file >> this->n;
             if(this->n<0)
                 throw exception();
@@ -34,6 +31,11 @@ ArrayStat:: ArrayStat(const char *file_name){
                     file >> a1 >> a2 >> a3;
                     this->m.insert(sqrt(a1*a1+a2*a2+a3*a3));
             }
+            }
+            catch(exception err){
+        cout << "no number" ;
+        this->n=0;
+    }
     }
     catch(exception err){
         cout << "no such file" ;

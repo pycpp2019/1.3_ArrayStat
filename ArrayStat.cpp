@@ -21,6 +21,7 @@ using namespace std;
     }
 
 ArrayStat:: ArrayStat(const char *file_name){
+    this->n=-5;
     try{
         ifstream file(file_name);
         if(!file){
@@ -38,12 +39,13 @@ ArrayStat:: ArrayStat(const char *file_name){
         }
 
         catch(exception err){
-            cout << "not a number error: " ;
-
+            cout << "not a number" ;
+            this->n=0;
     }
     }
     catch (exception err){
-        cout << "no file error: " ;
+        cout << "no such file " ;
+
     }
 
 
