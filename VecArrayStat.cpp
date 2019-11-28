@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cmath>
 
-VecArrayStat::VecArrayStat(const char *file_name) {
+ArrayStat::ArrayStat(const char *file_name) {
     fstream st (file_name, fstream::in);
 
     if (!st.is_open()) throw "Problems opening the file";
@@ -26,22 +26,22 @@ VecArrayStat::VecArrayStat(const char *file_name) {
     sort(this->vector.begin(), this->vector.end());
 }
 
-double VecArrayStat::max() const {
+double ArrayStat::max() const {
     if (this->vector.empty()) throw "The array is empty";
     return *(this->vector.end() - 1);
 }
 
-double VecArrayStat::min() const {
+double ArrayStat::min() const {
     if (this->vector.empty()) throw "The array is empty";
     return *(this->vector.begin());
 }
 
-double VecArrayStat::mean() const {
+double ArrayStat::mean() const {
     if (this->vector.empty()) throw "The array is empty";
     return accumulate(this->vector.begin(), this->vector.end(), 0.0) / this->vector.size();
 }
 
-double VecArrayStat::rms() const {
+double ArrayStat::rms() const {
     if (this->vector.empty()) throw "The array is empty";
     if (this->vector.size() == 1) throw "Only one element in the array";
     double mean = this->mean();
@@ -53,11 +53,11 @@ double VecArrayStat::rms() const {
     return sqrt(sq / (this->vector.size() - 1));
 }
 
-size_t VecArrayStat::countLarger(double a) const {
+size_t ArrayStat::countLarger(double a) const {
     return this->vector.end() - upper_bound(this->vector.begin(), this->vector.end(), a);
 }
 
-void VecArrayStat::print() const {
+void ArrayStat::print() const {
     for (int i = 0; i < this->vector.size(); i++) {
         cout << this->vector[i] << " ";
     }
