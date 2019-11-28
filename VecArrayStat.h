@@ -3,11 +3,11 @@
 
 using namespace std;
 
-class ArrayStat {
+class VecArrayStat {
 private:
     vector<double> vector;
 public:
-    ArrayStat(const char *file_name);
+    VecArrayStat(const char *file_name);
 
     double max() const;
     double min() const;
