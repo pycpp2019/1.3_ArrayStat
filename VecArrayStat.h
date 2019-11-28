@@ -1,7 +1,11 @@
 #include <cstdlib>
+#include <vector>
 
+using namespace std;
 
 class ArrayStat {
+private:
+    vector<double> vector;
 public:
     ArrayStat(const char *file_name);
 

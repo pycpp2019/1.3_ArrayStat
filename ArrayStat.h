@@ -1,9 +1,13 @@
 #pragma once
 
 #include <cstdlib>
+#include <vector>
 
+using namespace std;
 
 class ArrayStat {
+private:
+    vector<int> arr;
 public:
     ArrayStat(const char *file_name);
 
