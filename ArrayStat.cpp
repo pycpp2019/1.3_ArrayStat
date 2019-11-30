@@ -13,7 +13,7 @@ using namespace std;
 
 ArrayStat:: ArrayStat(const char *file_name){
     this->n=-5;
-    try{
+
         ifstream file(file_name);
         if(!file){
             throw exception();
@@ -33,64 +33,45 @@ ArrayStat:: ArrayStat(const char *file_name){
             cout << "not a number" ;
             this->n=0;
     }
-    }
-    catch (exception err){
-        cout << "no such file " ;
 
-    }
 
 
 }
 
 int ArrayStat:: max() const{
-    try{
-        if(this->n==0)
-            throw exception();
-
+    if(this->n==0)
+        throw exception();
+    else{
         return *prev((this->m.end()));
+    }
 
-    }
-    catch(exception err){
-       cout << "n=0";
-    }
 }
 int ArrayStat:: min() const{
-    try{
         if(this->n==0)
             throw exception();
-        return *(this->m.begin());
-    }
-    catch(exception arr){
-       cout <<"n=0";
-    }
+        else{
+            return *(this->m.begin());
+        }
 }
 
-float ArrayStat:: mean() const{
-    try{
+double ArrayStat:: mean() const{
         if(this->n==0)
             throw exception();
-        return float(accumulate(this->m.begin(),this->m.end(),0.0)/float(this->n));
-    }
-    catch (exception err){
-        cout << "n=0";
-    }
+        else{
+            return double(accumulate(this->m.begin(),this->m.end(),0.0)/double(this->n));
+        }
 }
-float ArrayStat:: rms() const{
-    try{
+double ArrayStat:: rms() const{
         if(this->n==0||this->n==1)
             throw exception();
-        return sqrt(inner_product(this->m.begin(),this->m.end(), this->m.begin(),0.0)/this->n-float(this->mean()*this->mean()));
-    }
-    catch (exception arr){
-        cout << "n=0or1";
-    }
+        else{
+            double s=accumulate(this->m.begin(),this->m.end(),0.0)/double(this->n);
+            double ssq=inner_product(this->m.begin(),this->m.end(),this->m.begin(),0.0);
+            return(sqrt(ssq-s*s/double(this->n))/double(this->n-1));
+        }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    if(this->n==0)
-        return 0;
-    if(a>this->mean())
-        return distance(this->m.upper_bound(a),this->m.end());
-    else return this->n-distance(this->m.begin(),this->m.upper_bound(a));
+    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
 }
 void ArrayStat:: print() const{
     try{
