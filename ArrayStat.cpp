@@ -66,7 +66,7 @@ double ArrayStat:: rms() const{
         if(this->n==0||this->n==1)
             throw exception();
         else{
-            double s=accumulate(this->m.begin(),this->m.end(),0.0)/double(this->n);
+            double s=accumulate(this->m.begin(),this->m.end(),0.0);
             double ssq=inner_product(this->m.begin(),this->m.end(),this->m.begin(),0.0);
             return(sqrt(ssq-s*s/double(this->n))/double(this->n-1));
         }
@@ -89,10 +89,4 @@ void ArrayStat:: print() const{
     }
 }
 
-/*int main(){
-    ArrayStat m=ArrayStat("a.txt");
-    float a=m.rms();
-    cout << a;
-    return 0;
-}*/
 
