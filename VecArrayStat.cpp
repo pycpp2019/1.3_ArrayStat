@@ -83,12 +83,12 @@ void ArrayStat:: print() const{
         cout << "empty";
     }
 }
-int main(){
+/*int main(){
     ArrayStat m=ArrayStat("a.txt");
     float a=m.mean();
     cout << a << endl;
     m.print();
     return 0;
 
-}
+}*/
 
