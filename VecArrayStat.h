@@ -9,14 +9,6 @@
 #include <iterator>
 #include <fstream>
 
-struct square
-{
-    double operator()(const double& Left, const double& Right) const;
-};
-
-
-
-
 class ArrayStat {
     int n;
     std::vector<double> m;
@@ -29,6 +21,6 @@ public:
     double mean() const;
     double rms() const;
 
-    size_t countLarger(int a) const;
+    size_t countLarger(double a) const;
     void print() const;
 };
