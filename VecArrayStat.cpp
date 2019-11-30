@@ -40,14 +40,14 @@ double ArrayStat:: max() const{
         if(this->n==0)
             throw exception();
         else{
-            return *(prev(this->m.end()));
+            return m[n-1];
         }
 }
 double ArrayStat:: min() const{
         if(this->n==0)
             throw exception();
         else{
-            return *(this->m.begin());
+            return m[0];
         }
 }double ArrayStat:: mean() const{
         if(this->n==0)
