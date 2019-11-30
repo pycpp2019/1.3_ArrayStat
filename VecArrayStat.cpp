@@ -14,6 +14,7 @@ ArrayStat::ArrayStat(const char* filename){
     }
 
     file >> n;
+    m.resize(n,1);
     double a1,a2,a3;
     for (long int i=0; i < n; i++) {
         file >> a1 >> a2 >> a3;
