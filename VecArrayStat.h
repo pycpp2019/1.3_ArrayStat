@@ -10,7 +10,7 @@
 #include <fstream>
 
 class ArrayStat {
-    int n;
+    long int n;
     std::vector<double> m;
 public:
     ArrayStat(const char *file_name);

@@ -1,88 +1,71 @@
-#pragma once
-# include <exception>
-#include <cstdlib>
 #include <iostream>
-#include <set>
-#include <cmath>
-#include <algorithm>
-#include <numeric>
-#include <iterator>
 #include <fstream>
+#include <cstdlib>
+#include <vector>
+#include <numeric>
+#include <algorithm>
 #include "VecArrayStat.h"
 using namespace std;
-ArrayStat:: ArrayStat(const char *file_name){
-    this->n=-5;
-        ifstream file(file_name);
-        if(!file){
-            throw exception();
-        }
-        try{
-            file >> this->n;
-            if(!this->n)
-                throw exception();
-            m.resize(this->n,1);
-            int a1,a2,a3;
-            long int i;
-            for(i=0;i<this->n;i++){
-                    file >> a1 >> a2 >> a3;
-                    m[i]=sqrt((double)(a1*a1+a2*a2+a3*a3));
-            }
-            sort(m.begin(),m.end());
-        }
 
-        catch(exception err){
-            cout << "exception" ;
-            this->n=0;
+ArrayStat::ArrayStat(const char* filename){
+    ifstream  file(filename);
+    if (!file){
+        throw exception();
+    }
+
+    file >> n;
+    double a1,a2,a3;
+    for (long int i=0; i < n; i++) {
+        file >> a1 >> a2 >> a3;
+
+        m[i]=sqrt((double)(a1*a1+a2*a2+a3*a3));
+    }
+
+    sort(m.begin(),m.end());
+}
+
+
+void ArrayStat::print() const{
+    for (int i=0; i < n; i++) {
+        cout << m[i] << endl;
     }
 }
 
-double ArrayStat:: max() const{
-        if(this->n==0)
-            throw exception();
-        else{
-            return m[n-1];
-        }
-}
-double ArrayStat:: min() const{
-        if(this->n==0)
-            throw exception();
-        else{
-            return m[0];
-        }
-}double ArrayStat:: mean() const{
-        if(this->n==0)
-            throw exception();
-        else{
-            long double s=(accumulate(this->m.begin(),this->m.end(),(long double)(0.0))/double(this->n));
-            return s/(double)this->n;
-        }
-}
-double ArrayStat:: rms() const{
-        if(this->n==0||this->n==1)
-            throw exception();
-        else{
-            double a = mean();
-            double rms = 0.0;
-            std::for_each (m.begin(), m.end(), [&](int n)->double {rms += (n - a) * (n - a);});
-            return sqrt((rms)/(m.size()-1));
-        }
-}
-size_t ArrayStat:: countLarger(double a) const{
-    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
-}
-void ArrayStat:: print() const{
-    if(m.size()==0)
+double ArrayStat::max() const{
+    if (n<1)
         throw exception();
-            for (long int i = 0; i<m.size(); i++)
-                cout << m[i] << " " << endl;
-
+    else
+        return m[n-1];
 }
-/*int main(){
-    ArrayStat m=ArrayStat("a.txt");
-    float a=m.rms();
-    cout << a << endl;
-    m.print();
-    return 0;
 
+size_t ArrayStat::countLarger(double a) const{
+    return n-(upper_bound(m.begin(),m.end(),a)-m.begin()) ;
 }
-*/
+
+
+double ArrayStat::min() const{
+    if (n<1)
+        throw exception();
+    else
+        return m[0];
+}
+
+double ArrayStat::mean() const {
+    if (n<1)
+        throw exception();
+    else {
+        long double summ=std::accumulate(m.begin(), m.end(), (long double)0);
+        return summ/(double)n;
+    }
+}
+
+double ArrayStat::rms()const{
+    if (n<2)
+        throw exception();
+    else {
+        double Mean=mean();
+        double r=(double)0;
+        std::for_each (m.begin(), m.end(), [&](double a)->double {r += (n - Mean) * (n - Mean);});
+        return sqrt(r/(double)(m.size()-1));
+    }
+}
