@@ -19,15 +19,15 @@ struct square
 
 class ArrayStat {
     int n;
-    std::multiset<float> m;
+    std::vector<float> m;
 public:
     ArrayStat(const char *file_name);
 
-    float max() const;
-    float min() const;
+    double max() const;
+    double min() const;
 
-    float mean() const;
-    float rms() const;
+    double mean() const;
+    double rms() const;
 
     size_t countLarger(int a) const;
     void print() const;

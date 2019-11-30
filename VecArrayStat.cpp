@@ -10,96 +10,76 @@
 #include <fstream>
 #include "VecArrayStat.h"
 using namespace std;
-
-   double square::  operator()(const double& Left, const double& Right) const
-    {
-        return (Left + Right*Right);
-    }
-
 ArrayStat:: ArrayStat(const char *file_name){
     this->n=-5;
-    try{
         ifstream file(file_name);
-        if(!file)
+        if(!file){
             throw exception();
-            try{
-         file >> this->n;
-            if(this->n<0)
+        }
+        try{
+            file >> this->n;
+            if(!this->n)
                 throw exception();
+            m.resize(this->n,1);
             int a1,a2,a3;
-            for(int i=1;i<=this->n;i++){
+            int i;
+            for(i=0;i<this->n;i++){
                     file >> a1 >> a2 >> a3;
-                    this->m.insert(sqrt(a1*a1+a2*a2+a3*a3));
+                    m[i]=sqrt(double(a1*a1+a2*a2+a3*a3));
             }
-            }
-            catch(exception err){
-        cout << "no number" ;
-        this->n=0;
-    }
-    }
-    catch(exception err){
-        cout << "no such file" ;
+            sort(m.begin(),m.end());
+        }
+
+        catch(exception err){
+            cout << "exception" ;
+            this->n=0;
     }
 }
 
-float ArrayStat:: max() const{
-    try{
+double ArrayStat:: max() const{
         if(this->n==0)
             throw exception();
+        else{
             return *(prev(this->m.end()));
-    }
-    catch(exception err){
-       cout << "n=0";
-    }
+        }
 }
-float ArrayStat:: min() const{
-    try{
+double ArrayStat:: min() const{
         if(this->n==0)
             throw exception();
-        return *(this->m.begin());
-    }
-    catch(exception err){
-       cout <<"n=0";}
-}
-
-float ArrayStat:: mean() const{
-    try{
+        else{
+            return *(this->m.begin());
+        }
+}double ArrayStat:: mean() const{
         if(this->n==0)
             throw exception();
-        return float(float(accumulate(this->m.begin(),this->m.end(),0.0))/float(this->n));
-    }
-    catch (exception err){
-        cout << "n=0";}
+        else{
+            return double(accumulate(this->m.begin(),this->m.end(),0.0)/double(this->n));
+        }
 }
-float ArrayStat:: rms() const{
-    try{
+double ArrayStat:: rms() const{
         if(this->n==0||this->n==1)
             throw exception();
-        return sqrt(inner_product(this->m.begin(),this->m.end(), this->m.begin(),0.0)/this->n-float(this->mean()*this->mean()));
-    }
-    catch (exception arr){
-        cout << "n=0or1";
-    }
+        else{
+            double s=accumulate(this->m.begin(),this->m.end(),0.0);
+            double ssq=double(accumulate(this->m.begin(),this->m.end(),0.0,[](double x,double y){return double(x+y*y);}));
+            return sqrt((ssq-s*s/double(n))/double(n-1));
+        }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    if(this->n==0)
-        return 0;
-    if(a>this->mean())
-        return distance(this->m.upper_bound(a),this->m.end());
-    else return this->n-distance(this->m.begin(),this->m.upper_bound(a));
+    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
 }
 void ArrayStat:: print() const{
     try{
-    if(this->n==0)
-        throw exception();
-    multiset <float> :: iterator it = this->m.begin();
-   for (int i = 1; it != this->m.end(); i++, it++) {
-        cout << *it << " ";
-    }
-
+        if(this->n==0)
+            throw exception();
+        else{
+            for (int i = 0; i<this->n; i++) {
+                cout << m[i] << " ";
+            }
+        }
     }
     catch(exception err){
-    cout << "n=0";
+        cout << "empty";
     }
 }
 /*int main(){
