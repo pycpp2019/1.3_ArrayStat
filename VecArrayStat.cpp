@@ -22,7 +22,7 @@ ArrayStat:: ArrayStat(const char *file_name){
                 throw exception();
             m.resize(this->n,1);
             int a1,a2,a3;
-            int i;
+            long int i;
             for(i=0;i<this->n;i++){
                     file >> a1 >> a2 >> a3;
                     m[i]=sqrt(double(a1*a1+a2*a2+a3*a3));
@@ -67,11 +67,11 @@ double ArrayStat:: rms() const{
         }
 }
 size_t ArrayStat:: countLarger(double a) const{
-    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),double(a));
+    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
 }
 void ArrayStat:: print() const{
-            for (int i = 0; i<this->n; i++)
-                cout << m[i] << " ";
+            for (int i = 0; i<m.size(); i++)
+                cout << m[i] << " " << endl;
 
 }
 /*int main(){
