@@ -25,7 +25,7 @@ ArrayStat:: ArrayStat(const char *file_name){
             long int i;
             for(i=0;i<this->n;i++){
                     file >> a1 >> a2 >> a3;
-                    m[i]=sqrt(double(a1*a1+a2*a2+a3*a3));
+                    m[i]=sqrt((double)(a1*a1+a2*a2+a3*a3));
             }
             sort(m.begin(),m.end());
         }
