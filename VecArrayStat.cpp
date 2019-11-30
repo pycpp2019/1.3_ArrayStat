@@ -70,25 +70,15 @@ size_t ArrayStat:: countLarger(double a) const{
     return this->m.end()-upper_bound(this->m.begin(),this->m.end(),double(a));
 }
 void ArrayStat:: print() const{
-    try{
-        if(this->n==0)
-            cout << "";
-        else{
-            for (int i = 0; i<this->n; i++) {
+            for (int i = 0; i<this->n; i++)
                 cout << m[i] << " ";
-            }
-        }
-    }
-    catch(exception err){
-        cout << "empty";
-    }
+
 }
 /*int main(){
     ArrayStat m=ArrayStat("a.txt");
-    float a=m.mean();
+    float a=m.max();
     cout << a << endl;
     m.print();
     return 0;
 
 }*/
-
