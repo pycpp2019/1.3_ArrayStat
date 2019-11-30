@@ -26,7 +26,7 @@ ArrayStat:: ArrayStat(const char *file_name){
             int a;
             int i;
             for(i=0;i<this->n;i++)
-                    cin >> m[i];
+                    file >> m[i];
             sort(m.begin(),m.end());
         }
 
