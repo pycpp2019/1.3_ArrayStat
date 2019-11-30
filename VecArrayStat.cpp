@@ -71,7 +71,9 @@ size_t ArrayStat:: countLarger(double a) const{
     return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
 }
 void ArrayStat:: print() const{
-            for (int i = 0; i<m.size(); i++)
+    if(m.size()==0)
+        throw exception();
+            for (long int i = 0; i<m.size(); i++)
                 cout << m[i] << " " << endl;
 
 }
