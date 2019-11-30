@@ -67,7 +67,7 @@ double ArrayStat:: rms() const{
             throw exception();
         else{
             double s=accumulate(this->m.begin(),this->m.end(),0.0);
-            double ssq=inner_product(this->m.begin(),this->m.end(),this->m.begin(),0.0);
+            double ssq=accumulate(this->m.begin(),this->m.end(),0.0,[](double x,int y){return double(x+y*y);});
             return sqrt((ssq-s*s/double(this->n))/double(n-1));
         }
 }
