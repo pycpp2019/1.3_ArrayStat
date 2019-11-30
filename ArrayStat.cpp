@@ -22,17 +22,21 @@ ArrayStat:: ArrayStat(const char *file_name){
             file >> this->n;
             if(!this->n)
                 throw exception();
-            int a;
             o.resize(this->n,1);
-            for(int i=1;i<=this->n;i++){
-                    file >> a;
-                    this->m.insert(a);
-                    o[i]=a;
+            int a;
+            int i;
+            for(i=0;i<this->n;i++)
+                    m.insert(a);
+            i=0;
+            for(auto it=m.begin();it!=m.end();it++){
+                o[i]=*it;
+                i++;
             }
+
         }
 
         catch(exception err){
-            cout << "not a number" ;
+            cout << "exception" ;
             this->n=0;
     }
 
