@@ -65,8 +65,8 @@ double ArrayStat::rms()const{
         throw exception();
     else {
         double Mean=mean();
-        double r=(double)0;
-        std::for_each (m.begin(), m.end(), [&](double a)->double {r += (n - Mean) * (n - Mean);});
-        return sqrt(r/(double)(m.size()-1));
+        long double r=(double)0;
+        std::for_each (m.begin(), m.end(), [&](double a)->double {r+=(a-Mean)*(a-Mean);});
+        return sqrt(r/(double)(n-1));
     }
 }
