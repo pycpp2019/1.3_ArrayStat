@@ -21,8 +21,7 @@ struct one
 
 class ArrayStat {
     int n;
-    std::multiset<int> m;
-    std::vector<int> o;
+    std::vector<int> m;
 public:
     ArrayStat(const char *file_name);
 

@@ -22,17 +22,12 @@ ArrayStat:: ArrayStat(const char *file_name){
             file >> this->n;
             if(!this->n)
                 throw exception();
-            o.resize(this->n,1);
+            m.resize(this->n,1);
             int a;
             int i;
             for(i=0;i<this->n;i++)
-                    m.insert(a);
-            i=0;
-            for(auto it=m.begin();it!=m.end();it++){
-                o[i]=*it;
-                i++;
-            }
-
+                    cin >> m[i];
+            sort(m.begin(),m.end());
         }
 
         catch(exception err){
@@ -77,16 +72,15 @@ double ArrayStat:: rms() const{
         }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    return o.end()-upper_bound(o.begin(),o.end(),a);
+    return m.end()-upper_bound(m.begin(),m.end(),a);
 }
 void ArrayStat:: print() const{
     try{
         if(this->n==0)
             throw exception();
         else{
-            multiset <int> :: iterator it = this->m.begin();
-            for (int i = 1; it != this->m.end(); i++, it++) {
-                cout << *it << " ";
+            for (int i = 0; i<this->n; i++) {
+                cout << m[i] << " ";
             }
         }
     }
