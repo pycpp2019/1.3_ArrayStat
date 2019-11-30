@@ -68,7 +68,7 @@ double ArrayStat:: rms() const{
         else{
             double s=accumulate(this->m.begin(),this->m.end(),0.0);
             double ssq=inner_product(this->m.begin(),this->m.end(),this->m.begin(),0.0);
-            return sqrt(ssq-s*s/double(this->n)/double(n-1));
+            return sqrt((ssq-s*s/double(this->n))/double(n-1));
         }
 }
 size_t ArrayStat:: countLarger(int a) const{
