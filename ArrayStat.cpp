@@ -23,9 +23,11 @@ ArrayStat:: ArrayStat(const char *file_name){
             if(!this->n)
                 throw exception();
             int a;
+            o.resize(this->n,1);
             for(int i=1;i<=this->n;i++){
                     file >> a;
                     this->m.insert(a);
+                    o[i]=a;
             }
         }
 
@@ -71,7 +73,7 @@ double ArrayStat:: rms() const{
         }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
+    return o.end()-upper_bound(o.begin(),o.end(),a);
 }
 void ArrayStat:: print() const{
     try{
