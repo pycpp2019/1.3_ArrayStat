@@ -19,7 +19,7 @@ struct square
 
 class ArrayStat {
     int n;
-    std::vector<float> m;
+    std::vector<double> m;
 public:
     ArrayStat(const char *file_name);
 

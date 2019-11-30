@@ -66,12 +66,12 @@ double ArrayStat:: rms() const{
         }
 }
 size_t ArrayStat:: countLarger(int a) const{
-    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),a);
+    return this->m.end()-upper_bound(this->m.begin(),this->m.end(),double(a));
 }
 void ArrayStat:: print() const{
     try{
         if(this->n==0)
-            throw exception();
+            cout << "";
         else{
             for (int i = 0; i<this->n; i++) {
                 cout << m[i] << " ";
