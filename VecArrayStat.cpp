@@ -54,16 +54,17 @@ double ArrayStat:: min() const{
             throw exception();
         else{
             long double s=(accumulate(this->m.begin(),this->m.end(),(long double)(0.0))/double(this->n));
-            return s/this->n;
+            return s/(double)this->n;
         }
 }
 double ArrayStat:: rms() const{
         if(this->n==0||this->n==1)
             throw exception();
         else{
-            long double s=accumulate(this->m.begin(),this->m.end(),0.0);
-            long double ssq=double(accumulate(this->m.begin(),this->m.end(),0.0,[](double x,double y){return double(x+y*y);}));
-            return sqrt((ssq-s*s/double(n))/double(n-1));
+            double a = mean();
+            double rms = 0.0;
+            std::for_each (m.begin(), m.end(), [&](int n)->double {rms += (n - a) * (n - a);});
+            return sqrt((rms)/(m.size()-1));
         }
 }
 size_t ArrayStat:: countLarger(double a) const{
@@ -76,9 +77,10 @@ void ArrayStat:: print() const{
 }
 /*int main(){
     ArrayStat m=ArrayStat("a.txt");
-    float a=m.max();
+    float a=m.rms();
     cout << a << endl;
     m.print();
     return 0;
 
-}*/
+}
+*/
