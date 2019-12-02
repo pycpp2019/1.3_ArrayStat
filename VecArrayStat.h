@@ -5,7 +5,7 @@ using namespace std;
 
 class ArrayStat {
 private:
-    vector<double> vector;
+    vector<double> vec;
 public:
     ArrayStat(const char *file_name);
 
