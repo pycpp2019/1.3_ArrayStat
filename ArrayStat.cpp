@@ -13,36 +13,45 @@ ArrayStat::ArrayStat(const char *file_name) {
     if (!file) throw std::invalid_argument("File does not open.");
     file >> count;
     data.resize(count);
-    while (!file.eof()) {
-        for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
+        if (!file.eof()) {
             file >> data[i];
+        } else {
+            throw std::invalid_argument("Unexpected EOF.");
         }
     }
     std::sort(data.begin(), data.end());
 }
 
 int ArrayStat::max() const {
-    if ((count == 0) || (count == 1)) throw std::invalid_argument("Count of array is not enough for work");
+    if (count == 0) throw std::invalid_argument("Count of array is not enough for work");
     return data[count - 1];
 }
 int ArrayStat::min() const {
-    if ((count == 0) || (count == 1)) throw std::invalid_argument("Count of array is not enough for work");
+    if (count == 0) throw std::invalid_argument("Count of array is not enough for work");
     return data[0];
 }
 double ArrayStat::mean() const {
-    if ((count == 0) || (count == 1)) throw std::invalid_argument("Count of array is not enough for work");
-    return accumulate(data.begin(), data.end(), data[0])/count;
+    if (count == 0) throw std::invalid_argument("Count of array is not enough for work");
+    return accumulate(data.begin(), data.end(), 0.)/count;
 }
 double ArrayStat::rms() const {
     if ((count == 0) || (count == 1)) throw std::invalid_argument("Count of array is not enough for work");
+    /*
     std::vector<int> data_1;
     data_1.resize(count);
     for (int i = 0; i < count; i++) {
         data_1[i] = pow(data[i], 2);
     }
-    return accumulate(data_1.begin(), data_1.end(), data_1[0])/count - pow((accumulate(data.begin(), data.end(), data[0])/count), 2);
+    return accumulate(data_1.begin(), data_1.end(), 0.)/count - pow((accumulate(data.begin(), data.end(), 0.)/count), 2);
+    */
+    double m = mean();
+    return sqrt(accumulate(data.begin(), data.end(), 0., [m](double a, int x) {
+        return a + pow(x - m, 2);
+    })/(count - 1));
 }
 size_t ArrayStat::countLarger(int a) const {
+    /*
     int counter = 0;
     for (int i = 0; i < count; i++) {
         if (data[i] > a) {
@@ -50,15 +59,19 @@ size_t ArrayStat::countLarger(int a) const {
         }
     }
     return counter;
+    */
+    return data.end() - std::upper_bound(data.begin(), data.end(), a);
 }
 void ArrayStat::print() const {
     for (int i = 0; i < count; ++i) {
-        std::cout << data[i] << std::endl;
+        std::cout << data[i] << " ";
     }
+    std::cout << std::endl;
 }
+/*
 int main() {
-    ArrayStat A("test.txt");
+    ArrayStat A("zero.txt");
     A.print();
-    std::cout << A.mean() << std::endl;
     return 0;
 }
+*/
