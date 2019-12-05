@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <algorithm>
-#include <io.h>
 #include <cmath>
 #include <numeric>
 
