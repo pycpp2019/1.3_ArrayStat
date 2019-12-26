@@ -1,19 +1,20 @@
-#pragma once
 #include <cstdlib>
+#include "fstream"
+#include <stdexcept>
 #include <vector>
 
+using namespace std;
+
 class ArrayStat {
-private:
-	std::vector<int> myset;
+    int n;
+    vector<vector<double> > dat;
+    vector<double> bdat;
 public:
     ArrayStat(const char *file_name);
-
-    int max() const;
-    int min() const;
-
+    double max() const;
+    double min() const;
     double mean() const;
     double rms() const;
-
-    size_t countLarger(int key) const;
+    size_t countLarger(double a) const;
     void print() const;
 };
