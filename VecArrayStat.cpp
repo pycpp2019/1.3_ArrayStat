@@ -1,91 +1,61 @@
-	#include <fstream>
-	#include <iostream>
-	#include <cmath>
-	#include "VecArrayStat.h"
-	#include <iterator>
-	#include <numeric>
-	#include <algorithm> 
-	 
- 	ArrayStat::ArrayStat(const char *file_name){
- 		int N;
- 		double buf,norm=0.0;
- 		try{
-		 	std::ifstream fin(file_name);
- 			if(fin.is_open() == false) throw "can't open the file";
- 			fin>>N;
-			for(int i=0; i!=N; i++){
-				for(int j=0; j!=3; j++){
-					fin>>buf;
-					norm+=buf*buf;	
-				}
-				myset.push_back(sqrt(norm));
-				norm=0.0;
-			}
-	
- 			fin.close();
- 		}	
-		catch(char *error){
-		std::cout<<error;
-		}
-		std::sort(myset.begin(),myset.end());
- 	}
+#include "VecArrayStat.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <stdexcept>
+#include <algorithm>
+#include <cmath>
+#include <numeric>
 
-    double ArrayStat::max() const{
-    	try{
-    		if(myset.size()==0) throw "max 0 error";
-			return myset.back();
-		}
-		catch(char *error){
-		std::cout<<error;	
-		return 0;
-		}
-	}
-
-    double ArrayStat::min() const{
-    	try{
-    		if(myset.size()==0) throw "min 0 error";
-			return myset.front();
-		}
-		catch(char *error){
-		std::cout<<error;
-		return 0;
-		}
-	}
-
-    double ArrayStat::mean() const{
-    	try{
-    		if(myset.size()==0) throw "mean 0 error";
-			double sum=std::accumulate(myset.begin(), myset.end(), 0.0);
-			return sum/myset.size();
-		}
-		catch(char *error){
-		std::cout<<error;
-		return 0;
-		}
-	}
-	
-
-	
-    double ArrayStat::rms() const{
-    	double m = mean();
-    	try{
-    		if(myset.size()==0 || myset.size()==1) throw "rms error";
-			double s=std::accumulate(myset.begin(),myset.end(),0.0,
-			[&m](const double &x,const double &y)->double{return x+(m-y)*(m-y);}
-			);
-			return sqrt(s/(myset.size()-1.0));
-		}
-		catch(char *error){
-		std::cout<<error;
-		return 0;
-		}
-	}
-
-    size_t ArrayStat::countLarger(double key) const{
-		return myset.end()-std::upper_bound(myset.begin(),myset.end(),key);
-	}
-	
-    void ArrayStat::print() const{
-		copy( myset.begin(), myset.end(), std::ostream_iterator<double>(std::cout, "\n"));
-		std::cout<<std::endl;
-	}
+ArrayStat::ArrayStat(const char *file_name) {
+    ifstream file(file_name);
+    if (!file) throw invalid_argument("File does not open.");
+    file >> n;
+    dat.resize(n);
+    bdat.resize(n);
+    for (int i = 0; i < n; ++i) {
+        dat[i].resize(3);
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (!file.eof()) {
+                file >> dat[i][j];
+            } else {
+                throw std::invalid_argument("Unexpected EOF.");
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        bdat[i] = sqrt(dat[i][0]*dat[i][0] + dat[i][1]*dat[i][1] + dat[i][2]*dat[i][2]);
+    }
+    sort(bdat.begin(), bdat.end());
+}
+double ArrayStat::max() const {
+    if (n == 0) throw invalid_argument("Count of array is not enough for work");
+    return bdat[n - 1];
+}
+double ArrayStat::min() const {
+    if (n == 0) throw invalid_argument("Count of array is not enough for work");
+    return bdat[0];
+}
+double ArrayStat::mean() const {
+    if (n == 0) throw invalid_argument("Count of array is not enough for work");
+    return accumulate(bdat.begin(), bdat.end(), 0.)/n;
+}
+double ArrayStat::rms() const {
+    if ((n == 0) || (n == 1)) throw invalid_argument("Count of array is not enough for work");
+    double m = mean();
+    return sqrt(accumulate(bdat.begin(), bdat.end(), 0., [m](double a, double x) {
+        return a + pow(x - m, 2);
+    })/(n - 1));
+}
+size_t ArrayStat::countLarger(double a) const {
+    return bdat.end() - upper_bound(bdat.begin(), bdat.end(), a);
+}
+void ArrayStat::print() const {
+    for (int i = 0; i < n; i++) {
+        cout << bdat[i] << " ";
+    }
+    cout << endl;
+}
