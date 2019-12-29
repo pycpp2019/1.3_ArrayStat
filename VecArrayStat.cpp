@@ -10,15 +10,10 @@ using namespace std;
 
 ArrayStat::ArrayStat(const char *file_name){
     fstream file;
-    try{
-        if (!file){
-            throw exception();
-        };
+    file.open(file_name, fstream::in); 
+    if (!file.is_open()) {
+        throw exception();
     }
-    catch(exception){
-        cerr << "exception";
-    };
-    file.open(file_name, fstream::in);
     file >> N;
     
     array.resize(N, 1);
