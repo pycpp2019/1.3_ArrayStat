@@ -1,7 +1,11 @@
-#include <cstdlib>
+#pragma once
 
+#include <cstdlib>
+#include <vector>
 
 class ArrayStat {
+    int N;
+    std::vector<double> array;
 public:
     ArrayStat(const char *file_name);
 
